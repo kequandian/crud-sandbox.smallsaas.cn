@@ -43,4 +43,6 @@ RUN --mount=type=cache,id=m2_cache,target=/root/.m2,rw mvn -DskipStandalone=fals
 FROM adoptopenjdk:11-jre-hotspot
 WORKDIR /webapps
 COPY --from=build /usr/src/target/*-standalone.jar /webapps/app.jar
+
+COPY ./api/config/application-dev.yml /webapps/config/application-dev.yml
 CMD ["java", "-jar", "/webapps/app.jar", "--spring.profiles.active=dev", "--server.port=8080"]

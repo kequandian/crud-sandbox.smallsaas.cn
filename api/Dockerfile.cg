@@ -1,0 +1,13 @@
+FROM zelejs/zerocodegenerator:latest as gencode
+ARG MODULE_NAME
+ARG TABLE_NAME
+
+#### ADD schema here
+COPY ./cg-mysql-schema.sql /schema.sql
+### ## 
+
+
+WORKDIR /usr/src
+RUN bash /usr/local/bin/gencode.sh ${MODULE_NAME} /schema.sql ${TABLE_NAME}
+
+## end gencode

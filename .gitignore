@@ -5,3 +5,4 @@ out/
 output/
 node_modules/
 *.iml
+/app.jar

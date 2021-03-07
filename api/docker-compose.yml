@@ -1,0 +1,17 @@
+version: '3.4'
+# COMPOSE_DOCKER_CLI_BUILD=1 docker-compose build
+services:
+  api:
+    image: crud_sandbox_api_cg  # temp name only for schema.sql
+    container_name: crud_sandbox_api_cg
+    build:
+      context: ../
+      dockerfile: ./api/Dockerfile.cg
+      args:
+        MODULE_NAME: cg
+        TABLE_NAME: cg_master_resource
+
+#default
+networks:
+  default:
+    name: sandbox_network

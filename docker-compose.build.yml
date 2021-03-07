@@ -1,5 +1,5 @@
 version: '3.4'
-# COMPOSE_DOCKER_CLI_BUILD=1 docker-compose build
+# COMPOSE_DOCKER_CLI_BUILD=1 docker-compose -f docker-compose.build.yml build
 # docker-compose run --rm zerocodegenerator cg /cg-mysql-schema.sql cg_master_resource
 services:
   api:
@@ -39,9 +39,32 @@ services:
     ports:
       - 8000:8000
     volumes: 
-      - ./out/web:/var/out  #for node-gateway
+      - ./out/web:/var/out
     command: 
       - /var/out
+    depends_on: 
+      - crudlessnetcore
+      - crudlesscli
+      - zeroelementpage
+  crudlessnetcore:
+    image: crudlessnetcore
+    build:
+      context: ./tags/crudlessnetcore
+    command: # override [dotnet]
+      - /bin/sh      
+  crudlesscli:
+    image: crudlesscli
+    build:
+      context: ./tags/crudlesscli
+    command: # override [npm start]
+      - sh      
+  zeroelementpage:
+    image: zeroelementpage
+    build:
+      context: ./tags/zeroelementpage
+      dockerfile: ./Dockerfile.cache
+    command: # override [npm start]
+      - sh
 
   nodegateway:
     image: nodegateway
