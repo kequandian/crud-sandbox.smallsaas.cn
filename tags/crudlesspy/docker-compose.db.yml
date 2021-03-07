@@ -1,0 +1,15 @@
+version: '3.4'
+services:
+  crudlessdb:
+      image: daocloud.io/library/mysql:5.7
+      container_name: crudlessdb
+      privileged: true
+      environment:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: crudlessdb
+      volumes: 
+        - ./cg-mysql-schema.sql:/cg-mysql-schema.sql
+
+networks:
+  default:
+    name: crudless_network

@@ -1,0 +1,12 @@
+version: '3.5'
+# COMPOSE_DOCKER_CLI_BUILD=1 docker-compose build
+services:
+  zeroelementpage:
+    image: zeroelementpage
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      
+networks:
+  default:
+    name: cg_network

@@ -1,0 +1,29 @@
+version: '3.4'
+
+services:
+  crudlesscli:
+    image: crudlesscli:latest
+    container_name: crudlesscli
+    build: 
+      context: .
+    volumes:
+      - ./crudless.yml:/var/crudless.yml
+      - ./output:/var/output
+    command: 
+      - /var/crudless.yml
+      - /var/output
+
+  crudlesscli_app:
+  # docker-compose  build --no-cache crudlesscli_app
+  # docker-compose run --rm --service-ports crudlesscli_app
+    image: crudlesscli:app
+    container_name: crudlesscli_app
+    build: 
+      context: .
+      dockerfile: ./Dockerfile.app
+    ports:
+      - 8000:8000
+
+networks:
+  default:
+    name: cg_network

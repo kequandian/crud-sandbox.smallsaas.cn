@@ -1,0 +1,5 @@
+FROM zeroelementpage as src
+
+#final-stage
+FROM daocloud.io/library/node:12.18-alpine
+COPY --from=src /usr/src/web/node_modules /usr/src/web/node_modules

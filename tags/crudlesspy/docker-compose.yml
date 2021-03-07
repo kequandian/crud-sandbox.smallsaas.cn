@@ -1,0 +1,27 @@
+version: '3.4'
+services:
+  crudlesspy:
+    image: crudlesspy
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes: 
+      - ./cli/cli.py:/usr/local/bin/cli/cli.py
+      - ./entrypoint.sh:/usr/local/bin/entrypoint.sh
+      - ./cg-mysql-schema.sql:/cg-mysql-schema.sql
+      - ./output:/var/output
+    entrypoint: 
+      - bash
+      - /usr/local/bin/entrypoint.sh
+    command: 
+      - -s
+      - crudlessdb
+      - -d
+      - crudlessdb
+      - -t
+      - cg_master_resource
+
+networks:
+  default:
+    external: 
+      name: crudless_network

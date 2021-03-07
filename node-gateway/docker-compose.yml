@@ -1,0 +1,8 @@
+version: '3.4'
+# docker build --memory=2g -t nodegateway:latest .
+services:
+  nodegateway:
+    image: nodegateway
+    build:
+      context: .
+      dockerfile: ./Dockerfile

@@ -1,0 +1,94 @@
+version: '3.4'
+# COMPOSE_DOCKER_CLI_BUILD=1 docker-compose build
+# docker-compose run --rm zerocodegenerator cg /cg-mysql-schema.sql cg_master_resource
+services:
+  api:
+    image: crud_sandbox_api_1  # temp name only for schema.sql
+    container_name: crud_sandbox_api_1
+    build:
+      context: .
+      dockerfile: ./api/Dockerfile
+      args:
+        MODULE_NAME: cg
+        TABLE_NAME: cg_master_resource
+    # ports: 
+    #   - 8080:8080
+    volumes:
+      - ./api/config/application-dev.yml:/webapps/application-dev.yml
+    depends_on: 
+      - mysqlserver
+  mysqlserver:
+     image: daocloud.io/library/mysql:5.7
+     container_name: mysqlserver
+     privileged: true
+     environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: test
+     volumes:
+        - ./api/mysql.conf.d/sql_mode.cnf:/etc/mysql/mysql.conf.d/sql_mode.cnf
+      # - ./api/data:/var/lib/mysql
+
+  web:
+    image: crud_sandbox_web_1  # temp name only for schema.sql
+    container_name: crud_sandbox_web_1
+    build:
+      context: .
+      dockerfile: ./web/Dockerfile
+      args:
+        TABLE_NAME: cg_master_resource
+    # ports:
+    #   - 8000:8000
+    volumes: 
+      - ./out/web:/var/out
+    command: 
+      - /var/out
+    depends_on: 
+      - crudlessnetcore
+      - crudlesscli
+      - zeroelementpage
+  crudlessnetcore:
+    image: crudlessnetcore
+    build:
+      context: ./tags/crudlessnetcore
+    command: # override [dotnet]
+      - sh      
+  crudlesscli:
+    image: crudlesscli
+    build:
+      context: ./tags/crudlesscli
+    command: # override [npm start]
+      - sh      
+  zeroelementpage:
+    image: zeroelementpage
+    build:
+      context: ./tags/zeroelementpage
+    command: # override [npm start]
+      - sh
+
+  nodegateway:
+    image: nodegateway
+    container_name: nodegateway
+    build:
+      context: ./node-gateway
+    environment:
+      NODE_ENV: production    
+    # ports:
+    #   - 8081:8080
+
+  nginx:
+      container_name: nginx
+      privileged: true
+      image: 'daocloud.io/library/nginx:latest'
+      ports:
+        - 8080:80
+      volumes:
+        - ./nginx/conf.d:/etc/nginx/conf.d
+      depends_on:
+        - api
+        - web
+        - nodegateway
+
+#default
+networks:
+  default:
+    name: sandbox_network

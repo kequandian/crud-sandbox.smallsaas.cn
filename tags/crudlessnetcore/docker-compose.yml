@@ -1,0 +1,14 @@
+
+version: '3.4'
+
+services:
+  crudlessnetcore:
+    image: crudlessnetcore
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./cg-mysql-schema.sql:/cg-mysql-schema.sql
+    command:
+      - /cg-mysql-schema.sql
+      - cg_master_resource
