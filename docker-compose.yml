@@ -36,8 +36,8 @@ services:
       dockerfile: ./web/Dockerfile
       args:
         TABLE_NAME: cg_master_resource
-    # ports:
-    #   - 8000:8000
+    ports:
+      - 8000:8000
     volumes: 
       - ./out/web:/var/out
     command: 
@@ -62,6 +62,7 @@ services:
     image: zeroelementpage
     build:
       context: ./tags/zeroelementpage
+      dockerfile: ./Dockerfile.cache
     command: # override [npm start]
       - sh
 

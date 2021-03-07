@@ -1,0 +1,16 @@
+FROM zelejs/zeroelement:cache as cache
+
+FROM daocloud.io/library/node:12 as web
+
+WORKDIR /usr/src
+RUN git clone https://github.com/kequandian/zero-element-admin --branch page --single-branch web
+COPY --from=cache /usr/src/web/node_modules /usr/src/web/node_modules
+WORKDIR /usr/src/web
+# RUN --mount=type=cache,id=node_modules_cache,target=/usr/src/web/node_modules,rw npm install
+RUN npm install
+
+#final-stage
+FROM daocloud.io/library/node:12.18-alpine
+COPY --from=web /usr/src/web /usr/src/web
+WORKDIR /usr/src/web
+CMD [ "npm", "start" ]

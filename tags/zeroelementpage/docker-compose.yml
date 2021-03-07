@@ -7,6 +7,3 @@ services:
       context: .
       dockerfile: ./Dockerfile
       
-networks:
-  default:
-    name: cg_network
