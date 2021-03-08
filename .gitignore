@@ -3,6 +3,7 @@
 target/
 out/
 output/
+repo/
 node_modules/
 *.iml
 /app.jar

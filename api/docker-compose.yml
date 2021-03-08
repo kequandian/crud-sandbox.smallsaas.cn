@@ -8,6 +8,7 @@ services:
       context: ../
       dockerfile: ./api/Dockerfile.cg
       args:
+        SCHEMA_NAME: cg-mysql-schema.sql
         MODULE_NAME: cg
         TABLE_NAME: cg_master_resource
 

@@ -1,19 +1,20 @@
 FROM zelejs/zerocodegenerator:latest as gencode
 ARG MODULE_NAME
 ARG TABLE_NAME
-
-#### ADD schema here
-COPY ./cg-mysql-schema.sql /schema.sql
-### ## 
+ARG SCHEMA_NAME
 
 
+#### gencode-stage
+COPY ./${SCHEMA_NAME} /$SCHEMA_NAME
 WORKDIR /usr/src
-RUN bash /usr/local/bin/gencode.sh ${MODULE_NAME} /schema.sql ${TABLE_NAME}
+RUN bash /usr/local/bin/gencode.sh ${MODULE_NAME} /$SCHEMA_NAME ${TABLE_NAME}
+
+## workaround for resource
+#add schema.sql into resource for initialize
+COPY ./${SCHEMA_NAME} ./${MODULE_NAME}/src/main/resources/sql
+## end 
 
 ## end gencode
-
-
-
 
 
 FROM zelejs/allin-web:alpine-m2 AS M2

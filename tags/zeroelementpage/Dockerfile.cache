@@ -4,6 +4,12 @@ FROM daocloud.io/library/node:12 as web
 
 WORKDIR /usr/src
 RUN git clone https://github.com/kequandian/zero-element-admin --branch page --single-branch web
+#cli method: 
+# $ git clone git@github.com:kequandian/zero-element-admin.git --branch page --single-branch web
+#COPY ./repo/web ./web
+# END
+
+
 COPY --from=cache /usr/src/web/node_modules /usr/src/web/node_modules
 WORKDIR /usr/src/web
 # RUN --mount=type=cache,id=node_modules_cache,target=/usr/src/web/node_modules,rw npm install
