@@ -37,12 +37,13 @@ services:
       - /var/out
 
   nodegateway:
-    image: nodegateway
+    image: register.docker.internal:5000/nodegateway:latest
     container_name: nodegateway
     networks:
       - crud_sandbox_network
-    build:
-      context: ./node-gateway
+    #build:
+    #  context: ./node-gateway
+    #   dockerfile: ./Dockerfile
     environment:
       NODE_ENV: production    
     # ports:
