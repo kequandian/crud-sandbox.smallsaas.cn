@@ -3,7 +3,8 @@ FROM zelejs/zeroelement:cache as cache
 FROM daocloud.io/library/node:12 as web
 
 WORKDIR /usr/src
-RUN git clone https://github.com/kequandian/zero-element-admin --branch page --single-branch web
+
+RUN git -c http.sslVerify=false clone https://github.com/kequandian/zero-element-admin.git --branch page --single-branch web
 #cli method: 
 # $ git clone git@github.com:kequandian/zero-element-admin.git --branch page --single-branch web
 #COPY ./repo/web ./web
@@ -12,6 +13,8 @@ RUN git clone https://github.com/kequandian/zero-element-admin --branch page --s
 
 COPY --from=cache /usr/src/web/node_modules /usr/src/web/node_modules
 WORKDIR /usr/src/web
+
+RUN npm config set registry https://registry.npm.taobao.org
 # RUN --mount=type=cache,id=node_modules_cache,target=/usr/src/web/node_modules,rw npm install
 RUN npm install
 

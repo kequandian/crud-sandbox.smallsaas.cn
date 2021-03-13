@@ -63,7 +63,7 @@ services:
     image: zeroelementpage
     build:
       context: ./tags/zeroelementpage
-      dockerfile: ./Dockerfile.cache
+      dockerfile: ./Dockerfile.build
     command: # override [npm start]
       - sh
 

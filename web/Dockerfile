@@ -22,7 +22,7 @@ RUN echo 'mkdir -p yml && cp /web/crudless.yml ./yml/$pageName.yml' >> run.sh
 RUN sh ./run.sh
 
 #final-stage, run
-FROM zeroelementpage
+FROM zeroelementpage:latest
 WORKDIR /usr/src/web
 COPY --from=env /web/src/pages ./src/pages
 COPY --from=env /web/yml ./src/assets/yml
