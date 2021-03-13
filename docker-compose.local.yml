@@ -18,7 +18,6 @@ services:
       - ./api/config/application-dev.yml:/webapps/config/application-dev.yml
     networks:
       - crud_sandbox_network
-      - mysqlserver_default
 
   web:
     image: crud_sandbox_web_1  # temp name only for schema.sql
@@ -30,8 +29,8 @@ services:
         TABLE_NAME: cg_master_resource
     networks:
       - crud_sandbox_network        
-    #ports:
-    #  - 8000:8000
+    ports:
+      - 8000:8000
     volumes: 
       - ./out/web:/var/out  #for node-gateway
     command: 
@@ -56,7 +55,7 @@ services:
       networks:
         - crud_sandbox_network
       ports:
-        - 8180:80  # 8080 for another app
+        - 8080:80
       volumes:
         - ./nginx/conf.d:/etc/nginx/conf.d
       depends_on:
@@ -69,5 +68,3 @@ services:
 networks:
   crud_sandbox_network:
     external: false
-  mysqlserver_default:
-    external: true

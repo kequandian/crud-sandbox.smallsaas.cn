@@ -14,11 +14,20 @@ services:
         TABLE_NAME: cg_master_resource
     # ports: 
     #   - 8080:8080
-    volumes:
-      - ./api/config/application-dev.yml:/webapps/config/application-dev.yml
-    networks:
-      - crud_sandbox_network
-      - mysqlserver_default
+    # volumes:
+    #   - ./api/config/application-dev.yml:/webapps/config/application-dev.yml
+    depends_on: 
+      - mysqlserver
+  mysqlserver:
+     image: daocloud.io/library/mysql:5.7
+     container_name: mysqlserver
+     privileged: true
+     environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: test
+     volumes:
+        - ./api/mysql.conf.d/sql_mode.cnf:/etc/mysql/mysql.conf.d/sql_mode.cnf
+      # - ./api/data:/var/lib/mysql
 
   web:
     image: crud_sandbox_web_1  # temp name only for schema.sql
@@ -28,10 +37,8 @@ services:
       dockerfile: ./web/Dockerfile
       args:
         TABLE_NAME: cg_master_resource
-    networks:
-      - crud_sandbox_network        
-    #ports:
-    #  - 8000:8000
+    ports:
+      - 8000:8000
     volumes: 
       - ./out/web:/var/out  #for node-gateway
     command: 
@@ -40,8 +47,6 @@ services:
   nodegateway:
     image: nodegateway
     container_name: nodegateway
-    networks:
-      - crud_sandbox_network
     build:
       context: ./node-gateway
     environment:
@@ -53,10 +58,8 @@ services:
       container_name: crud_sandbox_api_gw
       privileged: true
       image: 'daocloud.io/library/nginx:latest'
-      networks:
-        - crud_sandbox_network
       ports:
-        - 8180:80  # 8080 for another app
+        - 8080:80
       volumes:
         - ./nginx/conf.d:/etc/nginx/conf.d
       depends_on:
