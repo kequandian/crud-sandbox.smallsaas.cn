@@ -33,6 +33,8 @@ services:
     #ports:
     #  - 8000:8000
     volumes: 
+      - ./web/config/global.js:/usr/src/web/src/global.js
+      - ./web/config/config.js:/usr/src/web/public/config.js
       - ./out/web:/var/out  #for node-gateway
     command: 
       - /var/out
