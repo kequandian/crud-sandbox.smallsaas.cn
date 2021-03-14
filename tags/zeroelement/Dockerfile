@@ -1,7 +1,7 @@
 FROM daocloud.io/library/node:12 as web
 
 WORKDIR /usr/src
-RUN git clone https://github.com/kequandian/zero-element-admin --branch main --single-branch web
+RUN git -c http.sslVerify=false clone https://github.com/kequandian/zero-element-admin --branch main --single-branch web
 
 WORKDIR /usr/src/web
 
