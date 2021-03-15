@@ -28,6 +28,7 @@ RUN sh /usr/local/bin/entrypoint.sh
 FROM registry.docker.internal:5000/zeroelementpage:latest
 WORKDIR /usr/src/web
 RUN rm -rf ./src/pages/masterResource
+
 COPY --from=env /web/src ./src
 COPY --from=env /web/yml ./yml
 #COPY --from=env /web/src/pages/*/config/*-setting.json ./assets/json/

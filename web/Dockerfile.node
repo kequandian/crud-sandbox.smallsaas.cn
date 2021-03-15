@@ -27,11 +27,14 @@ RUN sh /usr/local/bin/entrypoint.sh
 #final-stage, run
 FROM registry.docker.internal:5000/zeroelementpage:latest
 WORKDIR /usr/src/web
+## clean up
 RUN rm -rf ./src/pages/masterResource
+COPY --from=env /web/src/pages ./src/pages
+COPY --from=env /web/yml ./yml
 
-## get gen code
+## for run time
 WORKDIR /usr/share/web
-COPY --from=env /web/src ./src
+COPY --from=env /web/src/pages ./src/pages
 COPY --from=env /web/yml ./yml
 #COPY --from=env /web/src/pages/*/config/*-setting.json ./assets/json/
 
@@ -45,7 +48,7 @@ COPY --from=env /web/yml ./yml
 # 1# mv  ./src .yml to $output
 # 2# soft link to $output
 # 3# npm start
-WORKDIR /usr/src/web
-
 COPY ./web/entrypoint.sh /usr/local/bin/entrypoint.sh
+
+WORKDIR /usr/src/web
 ENTRYPOINT [ "sh", "/usr/local/bin/entrypoint.sh" ]
