@@ -1,4 +1,4 @@
-FROM crudlessnetcore as cli
+FROM registry.docker.internal:5000/crudlessnetcore:latest as cli
 ARG TABLE_NAME
 
 WORKDIR /app
@@ -9,7 +9,7 @@ COPY ./cg-mysql-schema.sql /schema.sql
 RUN /usr/bin/dotnet crudless.netcore.dll /schema.sql ${TABLE_NAME} /var/tmp
 
 #env-stage
-FROM crudlesscli as env
+FROM registry.docker.internal:5000/crudlesscli:latest as env
 WORKDIR /web
 COPY --from=cli /var/tmp/crudless.yml /web/crudless.yml
 

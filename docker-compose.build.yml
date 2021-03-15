@@ -48,25 +48,24 @@ services:
       - crudlesscli
       - zeroelementpage
   crudlessnetcore:
-    image: crudlessnetcore
+    image: registry.docker.internal:5000/crudlessnetcore:latest
     build:
       context: ./tags/crudlessnetcore
     command: # override [dotnet]
       - /bin/sh      
   crudlesscli:
-    image: crudlesscli
+    image: registry.docker.internal:5000/crudlesscli:latest
     build:
       context: ./tags/crudlesscli
     command: # override [npm start]
-      - sh      
+      - sh
   zeroelementpage:
-    image: zeroelementpage
+    image: registry.docker.internal:5000/zeroelementpage:latest
     build:
       context: ./tags/zeroelementpage
       dockerfile: ./Dockerfile.build
     command: # override [npm start]
       - sh
-
   nodegateway:
     image: registry.docker.internal:5000/nodegateway:latest
     container_name: nodegateway
