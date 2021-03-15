@@ -28,12 +28,24 @@ RUN sh /usr/local/bin/entrypoint.sh
 FROM registry.docker.internal:5000/zeroelementpage:latest
 WORKDIR /usr/src/web
 RUN rm -rf ./src/pages/masterResource
+
+## get gen code
+WORKDIR /usr/share/web
 COPY --from=env /web/src ./src
 COPY --from=env /web/yml ./yml
 #COPY --from=env /web/src/pages/*/config/*-setting.json ./assets/json/
-CMD [ "npm", "start" ]
 
+### ---
+# share src within node-gateway 
+# #
+# CMD [ "npm", "start" ]
 
-# ## entrypoint
-# COPY ./web/entrypoint.sh /usr/local/bin/entrypoint.sh
-# ENTRYPOINT [ "sh", "/usr/local/bin/entrypoint.sh" ]
+## solution
+# script entrypoint.sh
+# 1# mv  ./src .yml to $output
+# 2# soft link to $output
+# 3# npm start
+WORKDIR /usr/src/web
+
+COPY ./web/entrypoint.sh /usr/local/bin/entrypoint.sh
+ENTRYPOINT [ "sh", "/usr/local/bin/entrypoint.sh" ]

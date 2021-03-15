@@ -35,7 +35,9 @@ services:
     volumes: 
       - ./web/config/global.js:/usr/src/web/src/global.js
       - ./web/config/config.js:/usr/src/web/public/config.js
-      - ./out/web:/var/out  #for node-gateway
+    #for node-gateway below
+      - ./out/web:/var/out  
+      # - ./out/web/pages:/usr/src/web/src/pages
     command: 
       - /var/out
 
@@ -65,6 +67,11 @@ services:
         - api
         - web
         - nodegateway
+  busybox:
+    image: daocloud.io/library/busybox
+    container_name: busybox
+    networks:
+      - crud_sandbox_network
 
 #default
 #default

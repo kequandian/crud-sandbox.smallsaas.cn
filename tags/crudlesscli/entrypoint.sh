@@ -37,12 +37,12 @@ pageName=${pageName%.json}
 
 # gen page
 zero-json manage crud $pageName -i ./$pageName.json -o $output/src/pages
+mkdir $output/yml && cp $input $output/yml
 
-# mv setting.json into assets
-cd  $output
-mkdir -p ./assets/json/$pageName/config
-mv  ./src/pages/$pageName/config/*-setting.json ./assets/json/$pageName/config
-
-# cp crudless.yml
-mkdir -p ./assets/yml
-cp $input ./assets/yml
+# # mv setting.json into assets
+# cd  $output
+# mkdir -p ./assets/json/$pageName/config
+# cp ./src/pages/$pageName/config/*-setting.json ./assets/json/$pageName/config
+# # cp crudless.yml
+# mkdir -p ./assets/yml
+# cp $input ./assets/yml

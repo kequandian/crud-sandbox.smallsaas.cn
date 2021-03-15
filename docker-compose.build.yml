@@ -34,7 +34,7 @@ services:
     container_name: crud_sandbox_web_1
     build:
       context: .
-      dockerfile: ./web/Dockerfile
+      dockerfile: ./web/Dockerfile.node
       args:
         TABLE_NAME: cg_master_resource
     ports:
