@@ -18,29 +18,20 @@ import { set as FITSet } from 'zero-element/lib/config/formItemType';
 import { set as AITSet } from 'zero-element/lib/config/actionItemType';
 import { set as VTSet } from 'zero-element/lib/config/valueType';
 
+import { message } from 'antd';
 
 import onPath from '@/listAction/onPath';
 
 import path from '@/actionItemType/path';
 import tabs from '@/actionItemType/tabs';
 
-import vPath from '@/valueType/path';
+import ProjectDetail from '@/container/ProjectDetail';
+import EditList from '@/container/EditList';
 
-import { message } from 'antd';
-
-import Content from '@/../zero-antd-dep/layout/Content';
+// import DnDPdfEdit from 'zero-element-antd-dpe';
+// import zeroDesign from 'zero-element-plugin-design';
 
 import './rewrite.less';
-
-//自定义组件--未使用
-import Setting from '@/container/Setting';
-import FieldListAdd from '@/pages/activitiesManage/activities/components/FieldListAdd';
-import FieldModalCheckbox from '@/pages/activitiesManage/activities/components/FieldModalCheckbox';
-import AITSet_childrenModalAdd from "@/pages/activitiesManage/activities/components/CModalAdd";
-import TreeSelectFetch from '@/components/TreeSelectFetch';
-//自定义组件--已使用
-import CustomForm from '@/components/CustomForm';
-import VTSet_InputSwitch from '@/components/ValueType/InputSwitch';
 
 const globalModel = getModel('global');
 
@@ -61,6 +52,7 @@ APIConfig({
   'RESPONSE_FIELD_records': 'records',
 });
 golbalSet({
+  tempEndpoint: '', // 开发环境下, 临时切换 pageManage 的 endpoint
   router: (path) => {
     history.push(path);
   },
@@ -87,41 +79,24 @@ golbalSet({
 
 
 if (process.env.NODE_ENV === 'development') {
-  setEndpoint('http://192.168.3.239:8180');
-  // saveToken({
-  //   token: '',
-  // });
-}else {
-  setEndpoint('http://192.168.3.239:8090');
+
+  setEndpoint('http://localhost:8080');
+  saveToken({
+    token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJvcmdJZCI6IjEwMDAwMDAwMDAwMDAwMDAxMCIsInVzZXJJZCI6Ijg3NjcwODA4MjQzNzE5NzgzMCIsInVzZXJUeXBlIjoxMDEsImJVc2VyVHlwZSI6IlNZU1RFTSIsInRlbmFudE9yZ0lkIjoxMDAwMDAwMDAwMDAwMDAwMTAsImFjY291bnQiOiJhZG1pbiIsImV4dHJhVXNlclR5cGUiOjEsImlhdCI6MTYwOTM4NzYwMSwianRpIjoiODc2NzA4MDgyNDM3MTk3ODMwIiwic3ViIjoiYWRtaW4iLCJleHAiOjE2MDk2NDY4MDF9.NR4FM6o-0sjcaMIicCe8-TPIsDojmgGxvfYhLF4BPpTCzyN5D9iQSpJMFHoHqLWQ7UQSGWU6fp_UG5U4S33HAA',
+  });
 }
-
-LayoutSet({
-  Content,
-});
-
-CSet({
-  'custom_form': CustomForm,
-  'Setting': Setting,
-});
 
 LASet({
   'onPath': onPath,
 });
 
-//表单组件
-FITSet({
-  'FieldListAdd': FieldListAdd,
-  'FieldModalCheckbox': FieldModalCheckbox,
-  'tree-select-fetch': TreeSelectFetch
+CSet({
+  'ProjectDetail': ProjectDetail,
+  'EditList': EditList,
+  // 'DnDFormEdit': zeroDesign.DnDFormEdit
 });
 
 AITSet({
   path,
   tabs,
-  'AITSet_childrenModalAdd': AITSet_childrenModalAdd,
-});
-
-VTSet({
-  'path': vPath,
-  'input-switch' : VTSet_InputSwitch,
 });
