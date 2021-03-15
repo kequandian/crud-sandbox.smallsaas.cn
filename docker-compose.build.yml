@@ -68,11 +68,11 @@ services:
       - sh
 
   nodegateway:
-    image: register.docker.internal:5000/nodegateway:latest
+    image: registry.docker.internal:5000/nodegateway:latest
     container_name: nodegateway
-    # build:
-    #   context: ./node-gateway
-    #   dockerfile: ./Dockerfile
+    build:
+      context: ./node-gateway
+      dockerfile: ./Dockerfile.src
     environment:
       NODE_ENV: production    
     # ports:

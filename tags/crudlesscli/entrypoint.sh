@@ -24,6 +24,10 @@ if [ ! $output ];then
   output='.'
 fi
 
+## just end if no input
+if [ ! -f $input ];then
+  exit
+fi
 
 ## gen BUILD json
 crudless -f $input --json
@@ -36,5 +40,9 @@ zero-json manage crud $pageName -i ./$pageName.json -o $output/src/pages
 
 # mv setting.json into assets
 cd  $output
-mkdir -p ./src/assets/json/$pageName/config
-mv  ./src/pages/$pageName/config/*-setting.json ./src/assets/json/$pageName/config
+mkdir -p ./assets/json/$pageName/config
+mv  ./src/pages/$pageName/config/*-setting.json ./assets/json/$pageName/config
+
+# cp crudless.yml
+mkdir -p ./assets/yml
+cp $input ./assets/yml

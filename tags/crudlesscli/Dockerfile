@@ -35,7 +35,9 @@ RUN npm link
 #RUN zero-json manage crud masterResource -i ./yml/build.json -o ./src/pages
 
 # #表示将当前文件夹下所有yml文件生成到abc文件夹目录下，目录可自定义
-# #RUN crudless --input ./yml --output ./src/pages 
+# RUN crudless --input ./yml --output ./src/pages 
 COPY ./entrypoint.sh /usr/local/bin/entrypoint.sh
 WORKDIR /web
 ENTRYPOINT ["sh", "/usr/local/bin/entrypoint.sh"]
+#input&output as args
+# CMD ["/var/crudless.yml", "/var/output"]

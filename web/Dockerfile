@@ -18,16 +18,20 @@ RUN crudless -f ./crudless.yml --json
 RUN echo 'pageName=$(basename $(ls *.json))' > run.sh
 RUN echo 'pageName=${pageName%.json}' >> run.sh
 RUN echo 'zero-json manage crud $pageName -i ./$pageName.json -o ./src/pages' >> run.sh
-RUN echo 'mkdir -p yml && cp /web/crudless.yml ./yml/$pageName.yml' >> run.sh
-RUN sh ./run.sh
+RUN echo 'mkdir -p yml && cp /web/crudless.yml ./yml/$pageName.yml' >> /tmp/run.sh
+RUN sh /tmp/run.sh
+RUN rm /tmp/run.sh
+RUN sh /usr/local/bin/entrypoint.sh
 
 #final-stage, run
 FROM registry.docker.internal:5000/zeroelementpage:latest
 WORKDIR /usr/src/web
-COPY --from=env /web/src/pages ./src/pages
-COPY --from=env /web/yml ./src/assets/yml
-COPY --from=env /web/src/pages/*/config/*-setting.json ./src/assets/json/
+RUN rm -rf ./src/pages/masterResource
+COPY --from=env /web/src ./src
+COPY --from=env /web/assets ./assets
+#COPY --from=env /web/src/pages/*/config/*-setting.json ./assets/json/
 # CMD [ "npm", "start" ]
 
+## entrypoint
 COPY ./web/entrypoint.sh /usr/local/bin/entrypoint.sh
 ENTRYPOINT [ "sh", "/usr/local/bin/entrypoint.sh" ]
