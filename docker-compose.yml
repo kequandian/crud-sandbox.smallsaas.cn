@@ -65,7 +65,8 @@ services:
         - web
         - nodegateway
   busybox:
-    image: daocloud.io/library/busybox
+    # image: daocloud.io/library/busybox
+    image: yauritux/busybox-curl
     container_name: busybox
     networks:
       - crud_sandbox_network

@@ -1,0 +1,21 @@
+version: '3.4'
+# COMPOSE_DOCKER_CLI_BUILD=1 docker-compose build
+# docker-compose run --rm zerocodegenerator cg /cg-mysql-schema.sql cg_master_resource
+services:
+  mysqlserver:
+     image: daocloud.io/library/mysql:5.7
+     container_name: mysqlserver
+     privileged: true
+     networks: 
+       - mysqlserver_default
+     environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: test
+     volumes:
+        - ./api/mysql.conf.d/sql_mode.cnf:/etc/mysql/mysql.conf.d/sql_mode.cnf
+      # - ./api/data:/var/lib/mysql
+
+#default
+networks:
+  mysqlserver_default:
+    external: false
