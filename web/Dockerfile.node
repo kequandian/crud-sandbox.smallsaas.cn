@@ -33,9 +33,10 @@ COPY --from=env /web/src/pages ./src/pages
 COPY --from=env /web/yml ./yml
 
 ## for run time
+WORKDIR /usr/share/web/src
+RUN cp -r /usr/src/web/src/pages .
 WORKDIR /usr/share/web
-COPY --from=env /web/src/pages ./src/pages
-COPY --from=env /web/yml ./yml
+RUN cp -r /usr/src/web/yml .
 #COPY --from=env /web/src/pages/*/config/*-setting.json ./assets/json/
 
 ### ---
