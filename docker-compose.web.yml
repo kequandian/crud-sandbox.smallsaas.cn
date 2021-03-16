@@ -1,0 +1,34 @@
+version: '3.4'
+# COMPOSE_DOCKER_CLI_BUILD=1 docker-compose build
+# docker-compose run --rm zerocodegenerator cg /cg-mysql-schema.sql cg_master_resource
+services:
+  web:
+    image: crud_sandbox_web_1  # temp name only for schema.sql
+    container_name: crud_sandbox_web_1
+    build:
+      context: .
+      dockerfile: ./web/Dockerfile.node
+      args:
+        TABLE_NAME: cg_master_resource
+    networks:
+      - crud_sandbox_network        
+    ports:
+      - 8000:8000
+    volumes: 
+      - ./web/config/global.js:/usr/src/web/src/global.js
+      - ./web/config/config.js:/usr/src/web/public/config.js
+    #for node-gateway below
+      - ./out/web/src/pages:/usr/src/web/src/pages
+
+  busybox:
+    # image: daocloud.io/library/busybox
+    image: yauritux/busybox-curl
+    container_name: busybox
+    networks:
+      - crud_sandbox_network
+
+networks:
+  crud_sandbox_network:
+      external: false
+  mysqlserver_default:
+    external: true

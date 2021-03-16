@@ -39,6 +39,7 @@ services:
       - ./out/web/src/pages:/usr/src/web/src/pages
 
   nodegateway:
+    #/usr/src/gateway/src/assets/json/masterResource/config/masterResource-setting.json
     image: registry.docker.internal:5000/nodegateway:latest
     container_name: nodegateway
     networks:
@@ -47,6 +48,7 @@ services:
       NODE_ENV: production
     volumes: 
       - ./out/web/src/pages:/usr/src/gateway/src/assets/json
+      # - ./node-gateway/src/src:/usr/src/gateway/src
     # ports:
     #   - 8081:8080
 
