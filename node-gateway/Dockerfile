@@ -6,7 +6,7 @@ ENV NODE_ENV=production
 WORKDIR /usr/src
 
 ## get source from github.com
-RUN npm install --save "https://5d650a493a79a7cb219da915288a257b5d6cc6e8@github.com/kequandian/node-gateway.git"
+RUN npm install --save "https://github.com/kequandian/node-gateway.git"
 WORKDIR /usr/src/node_modules/gateway
 
 RUN mkdir -p src/assets && touch ./src/assets/db.json

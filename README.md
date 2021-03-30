@@ -1,13 +1,6 @@
 ### 下载代码 
 ```
-git -c --http.sslVerify=false clone https://github.com/kequandian/crud-sandbox.smallsaas.cn.git
-```
-
-### 创建外部网络 `mysqlserver_network`
-> 非必要，为了保持一致性，也可以在`docker-compose.yml `中注释掉`mysqlserver_network`的依赖
-
-```
-docker network create mysqlserver_network
+git clone https://github.com/kequandian/crud-sandbox.smallsaas.cn.git
 ```
 
 ### 配置本地镜像仓库
@@ -20,9 +13,22 @@ $ cat /etc/hosts
 ```
 
 ### 启动容器编排
-```
+```shell
 docker-compose up
 ```
+
+> `web` 容器启动较慢，会导致`nginx`启动失败
+
+> 打开新窗口查看`web`容器是否启动成功,确认成功后，重启`nginx`容器
+
+> 然后再次确认容器`nginx`是否启动成功
+
+```shell
+docker-compose logs web
+docker-compose restart nginx
+docker-compose logs nginx
+```
+
 
 ### 网络环境解决方案
 > 在本地获取 docker image 代替从 `https://hub.docker.com` 拉取

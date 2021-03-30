@@ -71,7 +71,7 @@ services:
     container_name: nodegateway
     build:
       context: ./node-gateway
-      dockerfile: ./Dockerfile.src
+      dockerfile: ./Dockerfile
     environment:
       NODE_ENV: production    
     # ports:
