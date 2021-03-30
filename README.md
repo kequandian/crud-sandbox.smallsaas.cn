@@ -23,3 +23,10 @@ $ cat /etc/hosts
 ```
 docker-compose up
 ```
+
+### 网络环境解决方案
+> 在本地获取 docker image 代替从 `https://hub.docker.com` 拉取
+```
+docker pull registry.docker.internal:5000/zeroelement:cache
+docker tag registry.docker.internal:5000/zeroelement:cache zelejs/zeroelement:cache
+```
