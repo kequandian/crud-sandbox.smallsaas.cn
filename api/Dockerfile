@@ -43,6 +43,8 @@ RUN --mount=type=cache,id=m2_cache,target=/root/.m2,rw mvn -DskipStandalone=fals
 
 FROM adoptopenjdk:11-jre-hotspot
 WORKDIR /webapps
+COPY --from=build /usr/src/pom.xml /usr/src/pom.xml
+COPY --from=build /usr/src/src /usr/src/src
 COPY --from=build /usr/src/target/*-standalone.jar /webapps/app.jar
 
 COPY ./api/config/application-dev.yml /webapps/config/application-dev.yml

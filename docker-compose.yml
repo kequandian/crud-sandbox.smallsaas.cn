@@ -12,12 +12,23 @@ services:
         SCHEMA_NAME: cg-mysql-schema.sql
         MODULE_NAME: cg
         TABLE_NAME: cg_master_resource
-    # ports: # or nginx
-    #   - 8080:8080
+    ports: # or nginx
+      - 8080:8080
     volumes:
       - ./api/config/application-dev.yml:/webapps/config/application-dev.yml
     depends_on:
         - mysqlserver
+  mysqlserver:
+     image: daocloud.io/library/mysql:5.7
+     container_name: mysqlserver
+     privileged: true
+     environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: test
+     volumes:
+        - ./api/mysql.conf.d/sql_mode.cnf:/etc/mysql/mysql.conf.d/sql_mode.cnf
+      # - ./api/data:/var/lib/mysql
+      
   web:
     image: crud_sandbox_web_1  # temp name only for schema.sql
     container_name: crud_sandbox_web_1
@@ -43,32 +54,19 @@ services:
     volumes: 
       - ./out/web/src/pages:/usr/src/gateway/src/assets/json
       # - ./node-gateway/src/src:/usr/src/gateway/src
-    # ports:
-    #   - 8081:8080
 
   nginx:
       container_name: crud_sandbox_api_gw
       privileged: true
       image: 'daocloud.io/library/nginx:latest'
       ports:
-        - 8080:80  # 8080 for another app
+        - 8081:80  # 8080 for another app
       volumes:
         - ./nginx/conf.d:/etc/nginx/conf.d
       depends_on:
         - api
         - web
         - nodegateway
-
-  mysqlserver:
-     image: daocloud.io/library/mysql:5.7
-     container_name: mysqlserver
-     privileged: true
-     environment:
-        MYSQL_ROOT_PASSWORD: root
-        MYSQL_DATABASE: test
-     volumes:
-        - ./api/mysql.conf.d/sql_mode.cnf:/etc/mysql/mysql.conf.d/sql_mode.cnf
-      # - ./api/data:/var/lib/mysql
 
   busybox:
     # image: daocloud.io/library/busybox

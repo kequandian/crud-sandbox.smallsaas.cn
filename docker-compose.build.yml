@@ -16,18 +16,6 @@ services:
     #   - 8080:8080
     # volumes:
     #   - ./api/config/application-dev.yml:/webapps/config/application-dev.yml
-    depends_on: 
-      - mysqlserver
-  mysqlserver:
-     image: daocloud.io/library/mysql:5.7
-     container_name: mysqlserver
-     privileged: true
-     environment:
-        MYSQL_ROOT_PASSWORD: root
-        MYSQL_DATABASE: test
-     volumes:
-        - ./api/mysql.conf.d/sql_mode.cnf:/etc/mysql/mysql.conf.d/sql_mode.cnf
-      # - ./api/data:/var/lib/mysql
 
   web:
     image: crud_sandbox_web_1  # temp name only for schema.sql
