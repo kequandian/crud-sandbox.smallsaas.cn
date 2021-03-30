@@ -6,8 +6,6 @@ services:
      image: daocloud.io/library/mysql:5.7
      container_name: mysqlserver
      privileged: true
-     networks: 
-       - mysqlserver_default
      environment:
         MYSQL_ROOT_PASSWORD: root
         MYSQL_DATABASE: test
@@ -17,5 +15,5 @@ services:
 
 #default
 networks:
-  mysqlserver_default:
-    external: false
+  default:
+     name: mysqlserver_default
