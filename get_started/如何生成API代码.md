@@ -57,7 +57,18 @@ services:
 ```
 
 
-### 启动代码生成
+### 基于生成的代码直接运行测试
+> 进入生成的代码目录, 目录结构如下
+```
++ docker
++ src
+- pom.xml
+```
+
+> 进入`docker`目录，进行镜像构建
+> 
+> 构建成功后，可启动，可访问 `http://localhost:8080/swagger-ui.html`进行`API`测试 
 ```shell
+COMPOSE_DOCKER_CLI_BUILD=1 docker-compose build
 docker-compose up
 ```
