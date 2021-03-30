@@ -1,6 +1,6 @@
 FROM daocloud.io/library/node:12 as cli
 WORKDIR /usr/src
-RUN git -c http.sslVerify=false clone https://github.com/kequandian/hub.crudless.zerocode --branch cli.netcore --single-branch cli
+RUN git -c http.sslVerify=false clone https://github.com.cnpmjs.org/kequandian/hub.crudless.zerocode --branch cli.netcore --single-branch cli
 WORKDIR /usr/src/cli
 
 FROM mcr.microsoft.com/dotnet/runtime:5.0 AS base

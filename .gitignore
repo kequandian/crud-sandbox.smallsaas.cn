@@ -8,3 +8,4 @@ node_modules/
 *.iml
 /app.jar
 /node-gateway/src/
+.vscode/
