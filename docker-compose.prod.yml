@@ -12,12 +12,14 @@ services:
         SCHEMA_NAME: cg-mysql-schema.sql
         MODULE_NAME: cg
         TABLE_NAME: cg_master_resource
-    # ports: # or nginx
+    # ports: 
     #   - 8080:8080
     volumes:
       - ./api/config/application-dev.yml:/webapps/config/application-dev.yml
-    depends_on:
-        - mysqlserver
+    networks:
+      - crud_sandbox_network
+      - mysqlserver_default
+
   web:
     image: crud_sandbox_web_1  # temp name only for schema.sql
     container_name: crud_sandbox_web_1
@@ -26,8 +28,10 @@ services:
       dockerfile: ./web/Dockerfile.node
       args:
         TABLE_NAME: cg_master_resource
-    ports:
-      - 8000:8000
+    networks:
+      - crud_sandbox_network        
+    # ports:
+    #   - 8000:8000
     volumes: 
       - ./web/config/global.js:/usr/src/web/src/global.js
       - ./web/config/config.js:/usr/src/web/public/config.js
@@ -38,6 +42,8 @@ services:
     #/usr/src/gateway/src/assets/json/masterResource/config/masterResource-setting.json
     image: registry.docker.internal:5000/nodegateway:latest
     container_name: nodegateway
+    networks:
+      - crud_sandbox_network
     environment:
       NODE_ENV: production
     volumes: 
@@ -50,31 +56,25 @@ services:
       container_name: crud_sandbox_api_gw
       privileged: true
       image: 'daocloud.io/library/nginx:latest'
+      networks:
+        - crud_sandbox_network
       ports:
-        - 8080:80  # 8080 for another app
+        - 8180:80  # 8080 for another app
       volumes:
         - ./nginx/conf.d:/etc/nginx/conf.d
       depends_on:
         - api
         - web
         - nodegateway
-
-  mysqlserver:
-     image: daocloud.io/library/mysql:5.7
-     container_name: mysqlserver
-     privileged: true
-     environment:
-        MYSQL_ROOT_PASSWORD: root
-        MYSQL_DATABASE: test
-     volumes:
-        - ./api/mysql.conf.d/sql_mode.cnf:/etc/mysql/mysql.conf.d/sql_mode.cnf
-      # - ./api/data:/var/lib/mysql
-
   busybox:
     # image: daocloud.io/library/busybox
     image: yauritux/busybox-curl
     container_name: busybox
+    networks:
+      - crud_sandbox_network
 
 networks:
-  default: 
-    name: crud_sandbox_network
+  crud_sandbox_network:
+    external: false
+  mysqlserver_default:
+    external: true
