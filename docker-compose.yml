@@ -36,7 +36,7 @@ services:
 
   nodegateway:
     #/usr/src/gateway/src/assets/json/masterResource/config/masterResource-setting.json
-    image: registry.docker.internal:5000/nodegateway:latest
+    image: zelejs/nodegateway:latest
     container_name: nodegateway
     environment:
       NODE_ENV: production

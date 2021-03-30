@@ -66,16 +66,16 @@ services:
       dockerfile: ./Dockerfile.build
     command: # override [npm start]
       - sh
-  nodegateway:
-    image: registry.docker.internal:5000/nodegateway:latest
-    container_name: nodegateway
-    build:
-      context: ./node-gateway
-      dockerfile: ./Dockerfile
-    environment:
-      NODE_ENV: production    
-    # ports:
-    #   - 8081:8080
+  # nodegateway:
+  #   image: zelejs/nodegateway:latest
+  #   container_name: nodegateway
+  #   build:
+  #     context: ./node-gateway
+  #     dockerfile: ./Dockerfile
+  #   environment:
+  #     NODE_ENV: production    
+  #   ports:
+  #     - 8081:8080
 
   nginx:
       container_name: crud_sandbox_api_gw
