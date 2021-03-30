@@ -1,3 +1,6 @@
+> 自动化生成代码开发指引
+- [get_started](get_started/README.md)
+
 ### 下载代码 
 ```
 git clone https://github.com/kequandian/crud-sandbox.smallsaas.cn.git
