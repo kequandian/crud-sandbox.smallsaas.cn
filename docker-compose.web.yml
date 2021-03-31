@@ -30,5 +30,3 @@ services:
 networks:
   crud_sandbox_network:
       external: false
-  mysqlserver_default:
-    external: true

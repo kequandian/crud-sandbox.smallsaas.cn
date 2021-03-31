@@ -4,10 +4,10 @@ ARG SCHEMA_DESC
 ARG MODULE_NAME
 
 #### gencode-stage
-WORKDIR /
-COPY ${SCHEMA_SQL} ${SCHEMA_SQL}
 WORKDIR /usr/src
-RUN bash /usr/local/bin/cli.sh ${MODULE_NAME} $SCHEMA_SQL ${SCHEMA_DESC}
+COPY ${SCHEMA_SQL} ${SCHEMA_SQL}
+COPY ${SCHEMA_DESC} ${SCHEMA_DESC}
+RUN bash /usr/local/bin/cli.sh ${MODULE_NAME} ${SCHEMA_SQL} ${SCHEMA_DESC}
 
 ## workaround for resource
 #add schema.sql into resource for initialize
@@ -42,6 +42,7 @@ RUN --mount=type=cache,id=m2_cache,target=/root/.m2,rw mvn -DskipStandalone=fals
 
 FROM adoptopenjdk:11-jre-hotspot
 WORKDIR /webapps
+COPY --from=gencode /usr/src/docker /usr/src/docker
 COPY --from=build /usr/src/pom.xml /usr/src/pom.xml
 COPY --from=build /usr/src/src /usr/src/src
 COPY --from=build /usr/src/target/*-standalone.jar /webapps/app.jar

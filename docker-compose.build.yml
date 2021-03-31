@@ -9,7 +9,7 @@ services:
       context: .
       dockerfile: ./api/Dockerfile
       args:
-        SCHEMA_NAME: ./cg-mysql-schema.sql
+        SCHEMA_SQL: ./cg-mysql-schema.sql
         #SCHEMA_DESC: cg_master_resource
         SCHEMA_DESC: ./onemany.crud.json
         MODULE_NAME: cg
@@ -65,19 +65,18 @@ services:
   #     NODE_ENV: production    
   #   ports:
   #     - 8081:8080
-
-  nginx:
-      container_name: crud_sandbox_api_gw
-      privileged: true
-      image: 'daocloud.io/library/nginx:latest'
-      ports:
-        - 8080:80
-      volumes:
-        - ./nginx/conf.d:/etc/nginx/conf.d
-      depends_on:
-        - api
-        - web
-        - nodegateway
+  # nginx:
+  #     container_name: crud_sandbox_api_gw
+  #     privileged: true
+  #     image: 'daocloud.io/library/nginx:latest'
+  #     ports:
+  #       - 8080:80
+  #     volumes:
+  #       - ./nginx/conf.d:/etc/nginx/conf.d
+  #     depends_on:
+  #       - api
+  #       - web
+  #       - nodegateway
 
 #default
 networks:
