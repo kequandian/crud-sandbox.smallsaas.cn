@@ -23,6 +23,17 @@ docker-compose restart nginx
 docker-compose logs nginx
 ```
 
+
+### 通过定义数据库设计文件`schema.sql`直接构建`docker image`并启动
+> 启动成功后, 直接访问`http://localhost:8080/swagger-ui.html`进行api测试
+> 
+```shell
+sh scripts/apionly.sh
+## or 
+# docker-compose -f docker-compose.apionly.yml up
+```
+
+
 ## 网络环境解决方案
 
 ### 配置本地镜像仓库
