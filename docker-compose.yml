@@ -9,9 +9,10 @@ services:
       context: .
       dockerfile: ./api/Dockerfile
       args:
-        SCHEMA_NAME: cg-mysql-schema.sql
+        SCHEMA_SQL: ./cg-mysql-schema.sql
+        #SCHEMA_DESC: cg_master_resource
+        SCHEMA_DESC: ./onemany.crud.json
         MODULE_NAME: cg
-        TABLE_NAME: cg_master_resource
     ports: # or nginx
       - 8080:8080
     volumes:

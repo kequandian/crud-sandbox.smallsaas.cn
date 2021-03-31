@@ -1,25 +1,24 @@
 FROM zelejs/zerocodegenerator:latest as gencode
+ARG SCHEMA_SQL
+ARG SCHEMA_DESC 
 ARG MODULE_NAME
-ARG TABLE_NAME
-ARG SCHEMA_NAME
-
 
 #### gencode-stage
-COPY ./${SCHEMA_NAME} /$SCHEMA_NAME
+WORKDIR /
+COPY ${SCHEMA_SQL} ${SCHEMA_SQL}
 WORKDIR /usr/src
-RUN bash /usr/local/bin/gencode.sh ${MODULE_NAME} /$SCHEMA_NAME ${TABLE_NAME}
+RUN bash /usr/local/bin/cli.sh ${MODULE_NAME} $SCHEMA_SQL ${SCHEMA_DESC}
 
 ## workaround for resource
 #add schema.sql into resource for initialize
-COPY ./${SCHEMA_NAME} ./${MODULE_NAME}/src/main/resources/sql
+COPY ${SCHEMA_SQL} ./${MODULE_NAME}/src/main/resources/sql
 ## end 
 
-## end gencode
 
-
+#build-stage
 FROM zelejs/allin-web:alpine-m2 AS M2
 
-#builk-stage
+#build-stage
 FROM daocloud.io/library/maven:3.6.0-jdk-11-slim AS build
 
 # init .m2 from alpine-m2 image first
