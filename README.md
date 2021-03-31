@@ -33,6 +33,15 @@ sh scripts/apionly.sh
 # docker-compose -f docker-compose.apionly.yml up
 ```
 
+#### 容器启动后获取源代码
+> 新开窗口并进入下载目标代码目录获取容器内代码
+> 
+```shell
+docker cp crud_sandbox_api_1:/usr/src/pom.xml .
+docker cp -r crud_sandbox_api_1:/usr/src/src .
+mvn -DskipStandalone=false package
+```
+
 
 ## 网络环境解决方案
 
