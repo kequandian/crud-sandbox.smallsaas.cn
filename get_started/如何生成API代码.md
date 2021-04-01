@@ -1,4 +1,9 @@
 ## 如何生成API后台代码
+> 复制以下配置文件内容保存为 `docker-compose.yml`
+```
+docker-compose up
+# or docker-compose -f ./docker-compose.yml up
+```
 
 ### 生成单表代码
 在本地提供`schema.sql`数据库设计文件, 并指定输出代码的路径 (e.g. `./out`)
@@ -18,15 +23,16 @@ services:
   zerocodegenerator:
     image: zelejs/zerocodegenerator:latest
     volumes:
-      - ./cg-mysql-schema.sql:./schema.sql #input
+      - ./cg-mysql-schema.sql:/schema.sql #input
+      - ./one.crud.json:/crud.json
       - ./out:/var/out  #output
     entrypoint:
       - bash
       - /usr/local/bin/cli.sh
     command:
       - cg
-      - ./schema.sql
-      - cg_master_resource
+      - /schema.sql
+      - /crud.json
       - /var/out
 ```
 
@@ -43,16 +49,16 @@ services:
   zerocodegenerator:
     image: zelejs/zerocodegenerator:latest
     volumes:
-      - ./cg-mysql-schema.sql:./schema.sql #input
-      - ./onemany.crud.json:./crud.json
+      - ./cg-mysql-schema.sql:/schema.sql #input
+      - ./onemany.crud.json:/crud.json
       - ./out:/var/out  #output
     entrypoint:
       - bash
       - /usr/local/bin/cli.sh
     command:
       - cg
-      - ./schema.sql
-      - ./crud.json
+      - /schema.sql
+      - /crud.json
       - /var/out
 ```
 
