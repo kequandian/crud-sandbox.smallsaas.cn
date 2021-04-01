@@ -13,8 +13,8 @@ services:
         #SCHEMA_DESC: cg_master_resource
         SCHEMA_DESC: ./onemany.crud.json
         MODULE_NAME: cg
-    ports: # or nginx
-      - 8080:8080
+    # ports: # or nginx
+    #  - 8080:8080
     volumes:
       - ./api/config/application-dev.yml:/webapps/config/application-dev.yml
     depends_on:
@@ -61,7 +61,7 @@ services:
       privileged: true
       image: 'daocloud.io/library/nginx:latest'
       ports:
-        - 8081:80  # 8080 for another app
+        - 8080:80  # 8080 for another app
       volumes:
         - ./nginx/conf.d:/etc/nginx/conf.d
       depends_on:
