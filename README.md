@@ -54,7 +54,7 @@ web/config/global
 
 ```
 if (process.env.NODE_ENV === 'development') {
-  setEndpoint('http://localhost:8081');
+  setEndpoint('http://localhost:8080');
 }
 ```
 
