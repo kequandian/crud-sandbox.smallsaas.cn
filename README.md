@@ -44,10 +44,12 @@ mvn -DskipStandalone=false package
 
 ## 网络环境解决方案
 compose web 出现crud_sandbox_web_1 | /usr/local/bin/entrypoint.sh: line 13: syntax error: unexpected end of file (expecting "then")错误
+ ```
  $ winpty docker run --rm -it --entrypoint sh crud_sandbox_web_1
- 重新 up
+```
+重新 up
 
-### 网络服务端
+### 设置网络服务端
 web/config/global
 
 ```
