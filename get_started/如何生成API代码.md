@@ -1,9 +1,6 @@
 ## 如何生成API后台代码
-> 复制以下配置文件内容保存为 `docker-compose.yml`
-```shell
-docker-compose up
-# or docker-compose -f ./docker-compose.yml up
-```
+> [多表关联代码生成指引](https://github.com/zelejs/cg-api-cli/blob/master/crud.json-guide.md)
+> 
 
 ### 生成单表代码
 在本地提供`schema.sql`数据库设计文件, 设置表关系描述，并指定输出代码的路径 (e.g. `./out`)
@@ -47,12 +44,18 @@ services:
       - /var/out
 ```
 
+#### 运行
+> 复制上述配置文件内容并保存为 `docker-compose.yml`，然后一键执行
+```shell
+docker-compose up
+# or docker-compose -f ./docker-compose.yml up
+```
+
+
 ### 生成多表关联代码
 - 参数说明
 > 参考上文
->
-> [多表关联代码生成指引](https://github.com/zelejs/cg-api-cli/blob/master/crud.json-guide.md)
-> 
+
 ```yaml
 version: '3.4'
 services:
