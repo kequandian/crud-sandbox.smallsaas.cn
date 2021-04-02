@@ -42,12 +42,35 @@ docker cp -r crud_sandbox_api_1:/usr/src/src .
 mvn -DskipStandalone=false package
 ```
 
-## 网络环境解决方案
-compose web 出现crud_sandbox_web_1 | /usr/local/bin/entrypoint.sh: line 13: syntax error: unexpected end of file (expecting "then")错误
- ```
- $ winpty docker run --rm -it --entrypoint sh crud_sandbox_web_1
+### 如何生成前端代码
+提供`schema.sql`数据库设计文件，进入`web`目录，配置`docker-compose.yml`
+```yaml
+services:
+  web:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        SCHEMA_SQL: ./cg-mysql-schema.sql  #本地数据库schema文件
+        TABLE_NAME: cg_master_resource     #指定在数据库文件中要生成代码的表名
+    volumes: 
+      - ./out:/usr/src/web/src/pages  #配置输出目录./out
 ```
-重新 up
+> 运行即在输出目录中生成代码, 并把生成的代码拷贝至前端主程序的`./src/pages`目录中
+```shell
+docker-compose up
+```
+
+
+## 网络环境解决方案
+`compose web 出现crud_sandbox_web_1 | /usr/local/bin/entrypoint.sh: line 13: syntax error: unexpected end of file (expecting "then")错误`
+把 `web/entrypoint.sh`文件格式在`vscode`编辑器中由`CLRF`改为`LF`
+
+> 通新构建并通过以下方式重新检查是否正确
+```shell
+sh build.sh --no-cache web
+winpty docker run --rm -it --entrypoint sh crud_sandbox_web_1
+```
 
 ### 设置网络服务端
 web/config/global
