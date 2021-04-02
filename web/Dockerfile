@@ -8,6 +8,7 @@ COPY ./cg-mysql-schema.sql /schema.sql
 
 RUN /usr/bin/dotnet crudless.netcore.dll /schema.sql ${TABLE_NAME} /var/tmp
 
+
 #env-stage
 FROM registry.docker.internal:5000/crudlesscli:latest as env
 WORKDIR /web
@@ -27,14 +28,27 @@ RUN sh /usr/local/bin/entrypoint.sh
 #final-stage, run
 FROM registry.docker.internal:5000/zeroelementpage:latest
 WORKDIR /usr/src/web
+## clean up exist masterResource
 RUN rm -rf ./src/pages/masterResource
-
-COPY --from=env /web/src ./src
+## end clean up
+COPY --from=env /web/src/pages ./src/pages
 COPY --from=env /web/yml ./yml
+
+## for run time
+WORKDIR /usr/share/web/src
+RUN cp -r /usr/src/web/src/pages .
+WORKDIR /usr/share/web
+RUN cp -r /usr/src/web/yml .
 #COPY --from=env /web/src/pages/*/config/*-setting.json ./assets/json/
-CMD [ "npm", "start" ]
 
+### ---
+# share src within node-gateway 
+# #
+# CMD [ "npm", "start" ]
 
-# ## entrypoint
-# COPY ./web/entrypoint.sh /usr/local/bin/entrypoint.sh
-# ENTRYPOINT [ "sh", "/usr/local/bin/entrypoint.sh" ]
+## solution
+# script entrypoint.sh
+COPY ./web/entrypoint.sh /usr/local/bin/entrypoint.sh
+
+WORKDIR /usr/src/web
+ENTRYPOINT [ "sh", "/usr/local/bin/entrypoint.sh" ]

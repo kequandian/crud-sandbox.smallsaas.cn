@@ -25,7 +25,7 @@ services:
     container_name: crud_sandbox_web_1
     build:
       context: .
-      dockerfile: ./web/Dockerfile.node
+      dockerfile: ./web/Dockerfile
       args:
         TABLE_NAME: cg_master_resource
     networks:
