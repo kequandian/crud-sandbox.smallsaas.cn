@@ -1,0 +1,27 @@
+version: '3.4'
+# COMPOSE_DOCKER_CLI_BUILD=1 docker-compose build
+# docker-compose run --rm zerocodegenerator cg /cg-mysql-schema.sql cg_master_resource
+services:
+  web:
+    image: crud_sandbox_web_1  # temp name only for schema.sql
+    container_name: crud_sandbox_web_1
+    build:
+      context: .
+      dockerfile: ./web/Dockerfile
+      args:
+        SCHEMA_SQL: ./cg-mysql-schema.sql
+        TABLE_NAME: cg_master_resource
+    entrypoint:
+     - sh
+     - /usr/local/bin/entrypoint.sh  ## gen code only
+  # below for start
+    #  - npm
+    #  - start
+    # volumes: 
+    #   - ./web/config/global.js:/usr/src/web/src/global.js
+    #   - ./web/config/config.js:/usr/src/web/public/config.js
+    #   - ./out/web/src/pages:/usr/src/web/src/pages
+
+networks:
+  default:
+    name: crud_sandbox_network

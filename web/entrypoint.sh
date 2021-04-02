@@ -8,5 +8,16 @@ if [ ! $(ls $out) ];then
   find $out
 fi
 
+## fix $out/index.js
+fix="$out/index.js"
+pageName=$(basename $(ls /var/tmp/*.crudlesscli))
+pageName=${pageName%.crudlesscli}
+PageName=$(echo $pageName | sed -e "s/\b\(.\)/\u\1/g")
+
+#replace
+sed -i s/masterResource/$pageName/g $fix
+sed -i s/MasterResource/$PageName/g $fix
+
 # start
-npm start
+#npm start
+$@

@@ -1,12 +1,14 @@
 FROM registry.docker.internal:5000/crudlessnetcore:latest as cli
+ARG SCHEMA_SQL
 ARG TABLE_NAME
 
 WORKDIR /app
+
 ### ADD schema.sql, from schema.sql to crudless.yml
-COPY ./cg-mysql-schema.sql /schema.sql
+COPY ${SCHEMA_SQL} ${SCHEMA_SQL}
 ## #
 
-RUN /usr/bin/dotnet crudless.netcore.dll /schema.sql ${TABLE_NAME} /var/tmp
+RUN /usr/bin/dotnet crudless.netcore.dll ${SCHEMA_SQL} ${TABLE_NAME} /var/tmp
 
 
 #env-stage
@@ -33,6 +35,8 @@ RUN rm -rf ./src/pages/masterResource
 ## end clean up
 COPY --from=env /web/src/pages ./src/pages
 COPY --from=env /web/yml ./yml
+## get pageName from /var/tmp/*.crudlesscli
+COPY --from=env /var/tmp/*.crudlesscli /var/tmp
 
 ## for run time
 WORKDIR /usr/share/web/src
@@ -51,4 +55,4 @@ RUN cp -r /usr/src/web/yml .
 COPY ./web/entrypoint.sh /usr/local/bin/entrypoint.sh
 
 WORKDIR /usr/src/web
-ENTRYPOINT [ "sh", "/usr/local/bin/entrypoint.sh" ]
+ENTRYPOINT [ "sh", "/usr/local/bin/entrypoint.sh", "npm", "start" ]

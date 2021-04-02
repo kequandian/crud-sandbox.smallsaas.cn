@@ -8,10 +8,10 @@ services:
       context: ../   #for schemq.sql
       dockerfile: ./api/Dockerfile.cg
       args:
-        SCHEMA_NAME: cg-mysql-schema.sql
+        SCHEMA_SQL: ./cg-mysql-schema.sql
         MODULE_NAME: cg
-        TABLE_NAME: cg_master_resource
-
+        SCHEMA_DESC: ./one.crud.json
+        
 #default
 networks:
   default:

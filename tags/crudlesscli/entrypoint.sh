@@ -39,6 +39,10 @@ pageName=${pageName%.json}
 zero-json manage crud $pageName -i ./$pageName.json -o $output/src/pages
 mkdir $output/yml && cp $input $output/yml
 
+## touch $pageName, for getting pageName
+touch /var/tmp/$pageName.crudlesscli
+
+
 # # mv setting.json into assets
 # cd  $output
 # mkdir -p ./assets/json/$pageName/config

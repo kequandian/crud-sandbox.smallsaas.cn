@@ -9,7 +9,11 @@ services:
       context: .
       dockerfile: ./web/Dockerfile
       args:
+        SCHEMA_SQL: ./cg-mysql-schema.sql
         TABLE_NAME: cg_master_resource
+    #entrypoint:
+    #  - sh
+    #  - /usr/local/bin/entrypoint.sh ## gen code only
     networks:
       - crud_sandbox_network        
     ports:

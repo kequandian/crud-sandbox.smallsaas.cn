@@ -37,6 +37,7 @@ services:
       context: .
       dockerfile: ./web/Dockerfile
       args:
+        SCHEMA_SQL: ./cg-mysql-schema.sql
         TABLE_NAME: cg_master_resource
     ports:
       - 8000:8000
