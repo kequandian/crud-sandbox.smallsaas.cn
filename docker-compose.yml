@@ -34,7 +34,7 @@ services:
     image: crud_sandbox_web_1  # temp name only for schema.sql
     container_name: crud_sandbox_web_1
     build:
-      context: .
+      context: ..
       dockerfile: ./web/Dockerfile
       args:
         SCHEMA_SQL: ./cg-mysql-schema.sql
