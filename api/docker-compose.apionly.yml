@@ -7,7 +7,7 @@ services:
     container_name: crud_sandbox_api_1
     build:
       context: .
-      dockerfile: ./api/Dockerfile
+      dockerfile: ./Dockerfile
       args:
         SCHEMA_SQL: ./cg-mysql-schema.sql
         #SCHEMA_DESC: cg_master_resource  #table name or /path/to/cruds.json
@@ -16,9 +16,10 @@ services:
     ports: # or nginx
       - 8080:8080
     volumes:
-      - ./api/config/application-dev.yml:/webapps/config/application-dev.yml
+      - ./config/application-dev.yml:/webapps/config/application-dev.yml
     depends_on:
         - mysqlserver
+
   mysqlserver:
      image: daocloud.io/library/mysql:5.7
      container_name: mysqlserver
@@ -27,12 +28,12 @@ services:
         MYSQL_ROOT_PASSWORD: root
         MYSQL_DATABASE: test
      volumes:
-        - ./api/mysql.conf.d/sql_mode.cnf:/etc/mysql/mysql.conf.d/sql_mode.cnf
+        - ./mysql.conf.d/sql_mode.cnf:/etc/mysql/mysql.conf.d/sql_mode.cnf
       # - ./api/data:/var/lib/mysql
-  busybox:
-    # image: daocloud.io/library/busybox
-    image: yauritux/busybox-curl
-    container_name: busybox
+  # busybox:
+  #   # image: daocloud.io/library/busybox
+  #   image: yauritux/busybox-curl
+  #   container_name: busybox
 
 networks:
   default: 

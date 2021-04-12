@@ -5,13 +5,15 @@ services:
     image: crud_sandbox_api_cg  # temp name only for schema.sql
     container_name: crud_sandbox_api_cg
     build:
-      context: ../   #for schemq.sql
-      dockerfile: ./api/Dockerfile.cg
+      context: .
+      dockerfile: ./Dockerfile
       args:
         SCHEMA_SQL: ./cg-mysql-schema.sql
         MODULE_NAME: cg
         SCHEMA_DESC: ./one.crud.json
-        
+    ports: # or nginx
+      - 8080:8080
+      
 #default
 networks:
   default:
