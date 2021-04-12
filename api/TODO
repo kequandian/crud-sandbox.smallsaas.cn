@@ -1,0 +1,10 @@
+-> cli生成代码  ## done
+-> api生成代码 
+-> -> api生成代码获取代码git仓库
+-> -> api生成代码下载代码
+-> 通过界面配置由api生成代码
+-> 代码构建 .jar
+-> jar 部署到 container
+-> 生成 standalone container
+
+-> 定时更新代码
