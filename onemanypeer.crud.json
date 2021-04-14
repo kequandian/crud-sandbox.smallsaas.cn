@@ -1,0 +1,17 @@
+[
+    {
+        "mask": "master",
+        "master": "cg_master_resource",
+        "masterId": "cg_master_resource_relation::master_id:master_peer_id",
+        "slaves": [
+            "cg_master_resource_peer"
+        ]
+    },
+    {
+        "master": "cg_master_resource_peer"
+    },
+    {
+	"mask": "entity",
+        "master": "cg_master_resource_relation"
+    }
+ ]

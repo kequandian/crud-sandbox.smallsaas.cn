@@ -9,9 +9,9 @@ services:
       context: .
       dockerfile: ./api/Dockerfile
       args:
-        SCHEMA_SQL: ./api/cg-mysql-schema.sql
+        SCHEMA_SQL: ./cg-mysql-schema.sql
         #SCHEMA_DESC: cg_master_resource
-        SCHEMA_DESC: ./api/onemany.crud.json
+        SCHEMA_DESC: ./onemany.crud.json
         MODULE_NAME: cg
     # ports: # or nginx
     #  - 8080:8080
@@ -75,6 +75,3 @@ services:
     image: yauritux/busybox-curl
     container_name: busybox
 
-networks:
-  default: 
-    name: crud_sandbox_network

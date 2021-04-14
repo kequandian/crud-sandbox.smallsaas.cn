@@ -1,0 +1,13 @@
+[
+    {
+        "mask": "master",
+        "master": "cg_master_resource",
+        "masterId": "master_id",
+        "slaves": [
+            "cg_master_resource_item"
+        ]
+    },
+    {
+        "master": "cg_master_resource_item"
+    }
+ ]

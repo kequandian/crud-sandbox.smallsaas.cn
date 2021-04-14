@@ -80,6 +80,3 @@ services:
   #       - nodegateway
 
 #default
-networks:
-  default:
-    name: sandbox_network
