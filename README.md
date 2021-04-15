@@ -34,10 +34,11 @@ docker-compose logs nginx
 ```
 
 #### 在浏览器中访问 
-> http://localhost:8080
+`http://localhost:8080`
 > 
-> 也可以访问API说明文档
-> `http://localhost:8080/swagger-ui.html`
+同时也可以访问API说明文档
+>
+`http://localhost:8080/swagger-ui.html`
 
 
 #### 容器启动后获取源代码
@@ -50,9 +51,19 @@ docker cp -r crud_sandbox_api_1:/usr/src/src .
 mvn -DskipStandalone=false package
 ```
 
-## 网络环境解决方案
+## 遇到的问题
 `compose web 出现crud_sandbox_web_1 | /usr/local/bin/entrypoint.sh: line 13: syntax error: unexpected end of file (expecting "then")错误`
-把 `web/entrypoint.sh`文件格式在`vscode`编辑器中由`CLRF`改为`LF`
+
+#### CRLF 换行编码问题
+以下文件格式在`vscode`编辑器中由`CLRF`改为`LF`
+- `web/entrypoint.sh` 
+- `tags/crudlesscli/entrypoint.sh` 
+>
+或全局设置`git`的提交配置
+```
+git config --global core.autocrlf false
+```
+
 
 > 通新构建并通过以下方式重新检查是否正确
 ```shell
