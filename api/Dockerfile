@@ -47,5 +47,5 @@ COPY --from=build /usr/src/pom.xml /usr/src/pom.xml
 COPY --from=build /usr/src/src /usr/src/src
 COPY --from=build /usr/src/target/*-standalone.jar /webapps/app.jar
 
-COPY ./config/application-dev.yml /webapps/config/application-dev.yml
+COPY ./api/config/application-dev.yml /webapps/config/application-dev.yml
 CMD ["java", "-jar", "/webapps/app.jar", "--spring.profiles.active=dev", "--server.port=8080"]

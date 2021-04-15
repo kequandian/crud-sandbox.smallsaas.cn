@@ -5,4 +5,5 @@ services:
     image: nodegateway
     build:
       context: .
-      dockerfile: ./Dockerfile
+      dockerfile: ./Dockerfile.src
+      

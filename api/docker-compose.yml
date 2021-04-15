@@ -6,7 +6,7 @@ services:
     container_name: crud_sandbox_api_cg
     build:
       context: .
-      dockerfile: ./Dockerfile
+      dockerfile: ./Dockerfile.local
       args:
         SCHEMA_SQL: ./cg-mysql-schema.sql
         MODULE_NAME: cg
