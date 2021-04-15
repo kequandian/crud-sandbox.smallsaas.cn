@@ -16,7 +16,7 @@ git clone https://github.com/kequandian/crud-sandbox.smallsaas.cn.git
 sh build.sh  --no-cache
 ```
 
-### 启动容器编排
+#### 启动容器编排
 ```
 docker-comopse up
 ```
@@ -71,7 +71,7 @@ sh build.sh --no-cache web
 winpty docker run --rm -it --entrypoint sh crud_sandbox_web_1
 ```
 
-### 设置网络服务端
+#### 设置网络服务端
 web/config/global
 
 ```
@@ -81,7 +81,7 @@ if (process.env.NODE_ENV === 'development') {
 ```
 
 
-### 配置本地镜像仓库
+#### 配置本地镜像仓库
 > 办公室本地局域网服务器IP为 `192.168.3.239`
 
 ```
@@ -90,7 +90,7 @@ $ cat /etc/hosts
 192.168.3.239 registry.docker.internal
 ```
 
-### 获取本地镜像
+#### 获取本地镜像
 > 在本地获取 docker image 代替从 `https://hub.docker.com` 拉取
 ```
 docker pull registry.docker.internal:5000/zeroelement:cache
