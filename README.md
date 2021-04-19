@@ -1,14 +1,24 @@
 > 自动化生成代码开发指引
 - [get_started](get_started/README.md)
 
-### 下载代码 
+## 一步启动容器编排进行前后端测试
+> 需要在 windows 10 安装好 docker desktop
+
+#### 下载代码 
 ```
 git clone https://github.com/kequandian/crud-sandbox.smallsaas.cn.git
 ```
 
-### 一步启动容器编排进行前后端测试
+#### 构建所需镜像
+> 如果 schema 数据库sql文件有变更，需要增加清除缓存参数 --no-cache
+> 
 ```shell
-docker-compose up
+sh build.sh  --no-cache
+```
+
+#### 启动容器编排
+```
+docker-comopse up
 ```
 
 > `web` 容器启动较慢，会导致`nginx`启动失败
@@ -23,48 +33,37 @@ docker-compose restart nginx
 docker-compose logs nginx
 ```
 
-
-### 通过定义数据库设计文件`schema.sql`直接构建`docker image`并启动
-> 启动成功后, 直接访问`http://localhost:8080/swagger-ui.html`进行api测试
+#### 在浏览器中访问 
+`http://localhost:8080`
 > 
-```shell
-sh scripts/apionly.sh
-## or 
-# docker-compose -f docker-compose.apionly.yml up
-```
+同时也可以访问API说明文档
+>
+`http://localhost:8080/swagger-ui.html`
+
 
 #### 容器启动后获取源代码
-> 新开窗口并进入下载目标代码目录获取容器内代码
+> 可以在容器中获取生成的源代码
 > 
 ```shell
 docker cp crud_sandbox_api_1:/usr/src/pom.xml .
 docker cp -r crud_sandbox_api_1:/usr/src/src .
+# build the package base on the srce
 mvn -DskipStandalone=false package
 ```
 
-### 如何生成前端代码
-提供`schema.sql`数据库设计文件，进入`web`目录，配置`docker-compose.yml`
-```yaml
-services:
-  web:
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-      args:
-        SCHEMA_SQL: ./cg-mysql-schema.sql  #本地数据库schema文件
-        TABLE_NAME: cg_master_resource     #指定在数据库文件中要生成代码的表名
-    volumes: 
-      - ./out:/usr/src/web/src/pages  #配置输出目录./out
-```
-> 运行即在输出目录中生成代码, 并把生成的代码拷贝至前端主程序的`./src/pages`目录中
-```shell
-docker-compose up
-```
-
-
-## 网络环境解决方案
+## 遇到的问题
 `compose web 出现crud_sandbox_web_1 | /usr/local/bin/entrypoint.sh: line 13: syntax error: unexpected end of file (expecting "then")错误`
-把 `web/entrypoint.sh`文件格式在`vscode`编辑器中由`CLRF`改为`LF`
+
+#### CRLF 换行编码问题
+以下文件格式在`vscode`编辑器中由`CLRF`改为`LF`
+- `web/entrypoint.sh` 
+- `tags/crudlesscli/entrypoint.sh` 
+>
+或全局设置`git`的提交配置
+```
+git config --global core.autocrlf false
+```
+
 
 > 通新构建并通过以下方式重新检查是否正确
 ```shell
@@ -72,7 +71,7 @@ sh build.sh --no-cache web
 winpty docker run --rm -it --entrypoint sh crud_sandbox_web_1
 ```
 
-### 设置网络服务端
+#### 设置网络服务端
 web/config/global
 
 ```
@@ -82,7 +81,7 @@ if (process.env.NODE_ENV === 'development') {
 ```
 
 
-### 配置本地镜像仓库
+#### 配置本地镜像仓库
 > 办公室本地局域网服务器IP为 `192.168.3.239`
 
 ```
@@ -91,7 +90,7 @@ $ cat /etc/hosts
 192.168.3.239 registry.docker.internal
 ```
 
-### 获取本地镜像
+#### 获取本地镜像
 > 在本地获取 docker image 代替从 `https://hub.docker.com` 拉取
 ```
 docker pull registry.docker.internal:5000/zeroelement:cache
