@@ -9,22 +9,38 @@
 git clone https://github.com/kequandian/crud-sandbox.smallsaas.cn.git
 ```
 
-#### 构建所需镜像
-> 如果 schema 数据库sql文件有变更，需要增加清除缓存参数 --no-cache
-> 
+#### 构建所有依赖镜像
 ```shell
-sh build.sh  --no-cache
+sh build.sh --no-cache
+## or
+COMPOSE_DOCKER_CLI_BUILD=1 docker-compose -f docker-compose.build.yml build --no-cache
+```
+>
+> 如果`schema.sql`数据库文件有变更，仅需构建`api`以及`web`镜像
+>
+```shell
+sh rebuild.sh --no-cache
+## or
+COMPOSE_DOCKER_CLI_BUILD=1 docker-compose build --no-cache
 ```
 
+
 #### 启动容器编排
+> 可以单独启动`web`用于测试
+```shell
+docker-compose run --service-ports web
+## or
+sh start.sh web
+```
+>
+> 一步启动
 ```
 docker-comopse up
 ```
-
 > `web` 容器启动较慢，会导致`nginx`启动失败
-
+>
 > 打开新窗口查看`web`容器是否启动成功,确认成功后，重启`nginx`容器
-
+>
 > 然后再次确认容器`nginx`是否启动成功
 
 ```shell

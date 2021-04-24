@@ -52,14 +52,7 @@ RUN cp -r /usr/src/web/yml .
 
 ## solution
 # script entrypoint.sh
-
-## Dockerfile.prod ##
-#COPY ./web/entrypoint.sh /usr/local/bin/entrypoint.sh
-## Dockerfile ##
-COPY ./entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY ./web/entrypoint.sh /usr/local/bin/entrypoint.sh
 
 WORKDIR /usr/src/web
-## Dockerfile.prod ##
-#ENTRYPOINT [ "sh", "/usr/local/bin/entrypoint.sh", "npm", "start" ]
-## Dockerfile ##
-ENTRYPOINT [ "sh", "/usr/local/bin/entrypoint.sh"]
+ENTRYPOINT [ "sh", "/usr/local/bin/entrypoint.sh", "npm", "start" ]

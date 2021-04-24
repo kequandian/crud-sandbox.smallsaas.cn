@@ -35,17 +35,17 @@ services:
     container_name: crud_sandbox_web_1
     build:
       context: .
-      dockerfile: ./web/Dockerfile
+      dockerfile: ./web/Dockerfile.prod
       args:
         SCHEMA_SQL: ./cg-mysql-schema.sql
         TABLE_NAME: cg_master_resource
-    ports:
-      - 8000:8000
     volumes: 
       - ./web/config/global.js:/usr/src/web/src/global.js
       - ./web/config/config.js:/usr/src/web/public/config.js
     #for node-gateway below
-      - ./out/web/src/pages:/usr/src/web/src/pages
+      #- ./out/web/src/pages:/usr/src/web/src/pages
+    ports:
+      - 8000:8000
 
   nodegateway:
     #/usr/src/gateway/src/assets/json/masterResource/config/masterResource-setting.json
@@ -75,3 +75,6 @@ services:
     image: yauritux/busybox-curl
     container_name: busybox
 
+networks:
+  default:
+    name: crud_sandbox_network
