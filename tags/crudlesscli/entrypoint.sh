@@ -36,8 +36,12 @@ pageName=$(basename $(ls *.json))
 pageName=${pageName%.json}
 
 # gen page
-zero-json manage crud $pageName -i ./$pageName.json -o $output/src/pages
-mkdir $output/yml && cp $input $output/yml
+echo "zero-json manage crud $pageName -i ./$pageName.json -o $output/src/pages"
+zero-json manage crud $pageName -i ./$pageName.json -o $output/src/pages --direct
+if [ ! -d $output/yml ];then
+  mkdir $output/yml 
+fi
+cp $input $output/yml
 
 ## touch $pageName, for getting pageName
 touch /var/tmp/$pageName.crudlesscli
