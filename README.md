@@ -1,54 +1,50 @@
 > 自动化生成代码开发指引
 - [get_started](get_started/README.md)
 
-## 一步启动容器编排进行前后端测试
-> 需要在 windows 10 安装好 docker desktop
+#### 准备Windows10 或 Windows Server 2016 服务平台
+安装Docker Desktop for Windows环境 |
+[下载页面](https://hub.docker.com/editions/community/docker-ce-desktop-windows) | 
+[下载链接](https://desktop.docker.com/win/stable/amd64/Docker%20Desktop%20Installer.exe)
+
 
 #### 下载代码 
 ```
 git clone https://github.com/kequandian/crud-sandbox.smallsaas.cn.git
 ```
 
-#### 构建所有依赖镜像
+#### 预构建依赖镜像
 ```shell
 sh build.sh --no-cache
 ## or
 COMPOSE_DOCKER_CLI_BUILD=1 docker-compose -f docker-compose.build.yml build --no-cache
 ```
->
-> 如果`schema.sql`数据库文件有变更，仅需构建`api`以及`web`镜像
->
-```shell
-sh rebuild.sh --no-cache
-## or
-COMPOSE_DOCKER_CLI_BUILD=1 docker-compose build --no-cache
-```
 
+#### 准备自定义 `schema.sql`
+放置在根目录,并在`docker-compose.yml`中配置
+```yaml
+version: '3.8'
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./api/Dockerfile
+      args:
+        SCHEMA_SQL: ./cg-mysql-schema.sql  ## schema.sql文件位置(这里是根目录下)
+        SCHEMA_DESC: ./onemany.crud.json   ## 单表或多表关系描述
+        MODULE_NAME: cg                    ## 模块名称
+```
 
 #### 启动容器编排
-> 可以单独启动`web`用于测试
-```shell
-docker-compose run --service-ports web
-## or
-sh start.sh web
 ```
+docker-comopse up --build --remove-orphans
+```
+> 或
 >
-> 一步启动
-```
-docker-comopse up
-```
-> `web` 容器启动较慢，会导致`nginx`启动失败
+> `powershell`双击执行
 >
-> 打开新窗口查看`web`容器是否启动成功,确认成功后，重启`nginx`容器
+> 进入目录, 选择`startup.ps1`文件，右键选择`powershell`执行
+> 
 >
-> 然后再次确认容器`nginx`是否启动成功
-
-```shell
-docker-compose logs web
-docker-compose restart nginx
-docker-compose logs nginx
-```
-
 #### 在浏览器中访问 
 `http://localhost:8080`
 > 
@@ -57,20 +53,22 @@ docker-compose logs nginx
 `http://localhost:8080/swagger-ui.html`
 
 
-#### 容器启动后获取源代码
-> 可以在容器中获取生成的源代码
-> 
-```shell
-docker cp crud_sandbox_api_1:/usr/src/pom.xml .
-docker cp -r crud_sandbox_api_1:/usr/src/src .
-# build the package base on the srce
-mvn -DskipStandalone=false package
-```
+#### 如何中止服务
+在`powershell`输入终端键盘快捷键 `Ctrl+C` 中止
+> 请不要直接关闭窗口终端
+
 
 ## 遇到的问题
-`compose web 出现crud_sandbox_web_1 | /usr/local/bin/entrypoint.sh: line 13: syntax error: unexpected end of file (expecting "then")错误`
+
+#### 单独启动容器
+> 可以单独启动`web`用于测试
+```shell
+docker-compose run --service-ports web
+```
 
 #### CRLF 换行编码问题
+`compose web 出现crud_sandbox_web_1 | /usr/local/bin/entrypoint.sh: line 13: syntax error: unexpected end of file (expecting "then")错误`
+>
 以下文件格式在`vscode`编辑器中由`CLRF`改为`LF`
 - `web/entrypoint.sh` 
 - `tags/crudlesscli/entrypoint.sh` 
@@ -79,23 +77,20 @@ mvn -DskipStandalone=false package
 ```
 git config --global core.autocrlf false
 ```
-
-
+>
 > 通新构建并通过以下方式重新检查是否正确
 ```shell
 sh build.sh --no-cache web
 winpty docker run --rm -it --entrypoint sh crud_sandbox_web_1
 ```
 
-#### 设置网络服务端
+#### 设置前端服务
 web/config/global
-
 ```
 if (process.env.NODE_ENV === 'development') {
   setEndpoint('http://localhost:8080');
 }
 ```
-
 
 #### 配置本地镜像仓库
 > 办公室本地局域网服务器IP为 `192.168.3.239`

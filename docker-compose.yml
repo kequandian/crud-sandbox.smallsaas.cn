@@ -19,17 +19,7 @@ services:
       - ./api/config/application-dev.yml:/webapps/config/application-dev.yml
     depends_on:
         - mysqlserver
-  mysqlserver:
-     image: daocloud.io/library/mysql:5.7
-     container_name: mysqlserver
-     privileged: true
-     environment:
-        MYSQL_ROOT_PASSWORD: root
-        MYSQL_DATABASE: test
-     volumes:
-        - ./api/mysql.conf.d/sql_mode.cnf:/etc/mysql/mysql.conf.d/sql_mode.cnf
-      # - ./api/data:/var/lib/mysql
-      
+     
   web:
     image: crud_sandbox_web_1  # temp name only for schema.sql
     container_name: crud_sandbox_web_1
@@ -57,6 +47,17 @@ services:
       - ./out/web/src/pages:/usr/src/gateway/src/assets/json
       # - ./node-gateway/src/src:/usr/src/gateway/src
 
+  mysqlserver:
+    image: daocloud.io/library/mysql:5.7
+    container_name: mysqlserver
+    privileged: true
+    environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: test
+    volumes:
+        - ./api/mysql.conf.d/sql_mode.cnf:/etc/mysql/mysql.conf.d/sql_mode.cnf
+      # - crud_sandbox_data:/var/lib/mysql
+
   nginx:
       container_name: crud_sandbox_api_gw
       privileged: true
@@ -78,3 +79,6 @@ services:
 networks:
   default:
     name: crud_sandbox_network
+
+volumes: 
+  crud_sandbox_data:    
