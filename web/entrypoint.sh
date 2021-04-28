@@ -10,11 +10,13 @@ out='/usr/src/web/src/pages'
 
 ## fix $out/index.js
 fix="$out/index.js"
-pageName=$(basename $(ls /var/tmp/*.crudlesscli))
-pageName=${pageName%.crudlesscli}
-PageName=$(echo $pageName | sed -e "s/\b\(.\)/\u\1/g")
+pageName=$(basename $(ls /var/tmp/*.crudlesscli))  # get file name with extention .crudlesscli
+pageName=${pageName%.crudlesscli}   # get file name withotu extention .crudlesscli
+#PageName=$(echo $pageName | sed -e "s/\b\(.\)/\u\1/g")  #get file name without  extention .crudlesscli
+echo pageName=$pageName
 
 #replace
+echo "sed -i s/masterResource/$pageName/g $fix"
 sed -i s/masterResource/$pageName/g $fix
 sed -i s/MasterResource/$PageName/g $fix
 

@@ -30,13 +30,13 @@ services:
       dockerfile: ./api/Dockerfile
       args:
         SCHEMA_SQL: ./cg-mysql-schema.sql  ## schema.sql文件位置(这里是根目录下)
-        SCHEMA_DESC: ./onemany.crud.json   ## 单表或多表关系描述
+        SCHEMA_DESC: ./one.crud.json       ## 单表或多表关系描述
         MODULE_NAME: cg                    ## 模块名称
 ```
 
 #### 启动容器编排
 ```
-docker-comopse up --build --remove-orphans
+COMPOSE_DOCKER_CLI_BUILD=1 docker-comopse -f docker-compose.yml up --build --remove-orphans
 ```
 > 或
 >

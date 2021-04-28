@@ -3,16 +3,16 @@ version: '3.4'
 # docker-compose run --rm zerocodegenerator cg /cg-mysql-schema.sql cg_master_resource
 services:
   api:
-    image: crud_sandbox_api_1  # temp name only for schema.sql
-    container_name: crud_sandbox_api_1
+    image: crud_sandbox_api_2  # temp name only for schema.sql
+    container_name: crud_sandbox_api_2
     build:
       context: .
       dockerfile: ./api/Dockerfile
       args:
-        SCHEMA_SQL: ./cg-mysql-schema.sql
+        SCHEMA_SQL: ./cg-student.sql
         #SCHEMA_DESC: cg_master_resource
-        SCHEMA_DESC: ./onemany.crud.json
-        MODULE_NAME: cg
+        SCHEMA_DESC: ./student.crud.json
+        MODULE_NAME: paper
     # ports: # or nginx
     #  - 8080:8080
     volumes:
@@ -21,19 +21,22 @@ services:
         - mysqlserver
      
   web:
-    image: crud_sandbox_web_1  # temp name only for schema.sql
-    container_name: crud_sandbox_web_1
+    image: crud_sandbox_web_2  # temp name only for schema.sql
+    container_name: crud_sandbox_web_2
     build:
       context: .
       dockerfile: ./web/Dockerfile.prod
       args:
-        SCHEMA_SQL: ./cg-mysql-schema.sql
-        TABLE_NAME: cg_master_resource
+        SCHEMA_SQL: ./cg-student.sql
+        TABLE_NAME: t_student
     volumes: 
       - ./web/config/global.js:/usr/src/web/src/global.js
       - ./web/config/config.js:/usr/src/web/public/config.js
     #for node-gateway below
       - ./out/web/src/pages:/usr/src/web/src/pages
+    command: 
+      - npm
+      - start
     ports:
       - 8000:8000
 
@@ -45,6 +48,8 @@ services:
       NODE_ENV: production
     volumes: 
       - ./out/web/src/pages:/usr/src/gateway/src/assets/json
+    # for src code mapping
+      # - ./node-gateway/src/src:/usr/src/gateway/src
 
   mysqlserver:
     image: daocloud.io/library/mysql:5.7

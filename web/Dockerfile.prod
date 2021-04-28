@@ -55,4 +55,5 @@ RUN cp -r /usr/src/web/yml .
 COPY ./web/entrypoint.sh /usr/local/bin/entrypoint.sh
 
 WORKDIR /usr/src/web
-ENTRYPOINT [ "sh", "/usr/local/bin/entrypoint.sh", "npm", "start" ]
+# ENTRYPOINT [ "sh", "/usr/local/bin/entrypoint.sh", "npm", "start" ]
+ENTRYPOINT [ "sh", "/usr/local/bin/entrypoint.sh" ]

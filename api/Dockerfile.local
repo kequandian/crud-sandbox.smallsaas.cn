@@ -11,7 +11,7 @@ RUN bash /usr/local/bin/cli.sh ${MODULE_NAME} ${SCHEMA_SQL} ${SCHEMA_DESC}
 
 ## workaround for resource
 #add schema.sql into resource for initialize
-COPY ${SCHEMA_SQL} ./${MODULE_NAME}/src/main/resources/sql
+# COPY ${SCHEMA_SQL} ./${MODULE_NAME}/src/main/resources/sql
 ## end 
 
 
