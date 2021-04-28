@@ -11,7 +11,7 @@ services:
       args:
         SCHEMA_SQL: ./cg-mysql-schema.sql
         #SCHEMA_DESC: cg_master_resource
-        SCHEMA_DESC: ./onemany.crud.json
+        SCHEMA_DESC: ./one.crud.json
         MODULE_NAME: cg
     # ports: # or nginx
     #  - 8080:8080
