@@ -53,6 +53,8 @@ services:
       NODE_ENV: production
     volumes: 
       - ./out/web/src/pages:/usr/src/gateway/src/assets/json
+          #for development env
+      # - ./node-gateway/src/src:/usr/src/gateway/src
 
   mysqlserver:
     image: daocloud.io/library/mysql:5.7
