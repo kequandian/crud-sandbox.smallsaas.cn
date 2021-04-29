@@ -1,2 +1,2 @@
 #!/bin/sh
-docker-compose -f docker-compose.student.yml run --rm web bash
+docker-compose -f docker-compose.yml run --rm --entrypoint sh web

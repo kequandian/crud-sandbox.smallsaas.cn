@@ -1,12 +1,15 @@
 #!/bin/sh
 # notes:
 #  -- to share volume with node-gateway
-out='/usr/src/web/src/pages'
-#if [ ! $(ls $out) ];then
-  echo cp -r /usr/share/web/src/pages/* $out 
-  cp -r /usr/share/web/src/pages/* $out
-  find $out
-#fi
+out='/usr/share/web/src/pages'
+if [ -d $out ];then
+  ## means shared with node gateway
+  echo “cp -r /usr/src/web/src/pages/* $out”
+  cp -r /usr/src/web/src/pages/* $out
+
+  mv /usr/src/web/src/pages /var/tmp
+  ln -s $out /usr/src/web/src/pages
+fi
 
 ## fix $out/index.js
 fix="$out/index.js"
