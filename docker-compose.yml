@@ -35,9 +35,12 @@ services:
       - ./web/config/global.js:/usr/src/web/src/global.js
       - ./web/config/config.js:/usr/src/web/public/config.js
     #for node-gateway below
-      - ./out/web/src/pages:/usr/share/web/src/pages
+      - ./out/web/src/pages:/usr/src/web/src/pages
     ports:
       - 8000:8000
+    command:
+        - npm
+        - start
     depends_on: 
       - api
       - nodegateway
@@ -49,11 +52,11 @@ services:
     environment:
       NODE_ENV: production
     volumes: 
-      - ./out/web/src/pages:/usr/share/src/assets/json
+      - ./out/web/src/pages:/usr/src/gateway/src/assets/json
 
   mysqlserver:
     image: daocloud.io/library/mysql:5.7
-    container_name: mysqlserver
+    # container_name: mysqlserver
     privileged: true
     environment:
         MYSQL_ROOT_PASSWORD: root
@@ -73,10 +76,10 @@ services:
       depends_on:
         - web
 
-  # busybox:
-  #   # image: daocloud.io/library/busybox
-  #   image: yauritux/busybox-curl
-  #   container_name: busybox
+  busybox:
+    # image: daocloud.io/library/busybox
+    image: yauritux/busybox-curl
+    container_name: busybox
 
 networks:
   default:

@@ -17,13 +17,10 @@ services:
       - ./config/global.js:/usr/src/web/src/global.js
       - ./config/config.js:/usr/src/web/public/config.js
     #for node-gateway below
-      - ./out/web/src/pages:/usr/share/web/src/pages
+      - ./out/web/src/pages:/usr/src/web/src/pages
     # just run 
     ports:
-      - 8001:8000
-    command: 
-        - npm
-        - start
+      - 8000:8000
         
 networks:
   default:

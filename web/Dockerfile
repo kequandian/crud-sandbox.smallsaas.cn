@@ -31,9 +31,10 @@ RUN sh /usr/local/bin/entrypoint.sh
 FROM registry.docker.internal:5000/zeroelementpage:latest as pages
 ARG ENTRY_SCRIPT
 
-WORKDIR /usr/src/web
+WORKDIR /usr/share/web
 # get all pages within /usr/src/web/src/pages
-COPY --from=env /web/src/pages ./src/pages   
+RUN cp -r /usr/src/web/src/pages ./src
+COPY --from=env /web/src/pages ./src/pages
 COPY --from=env /web/yml ./yml
 ## get pageName from /var/tmp/*.crudlesscli
 COPY --from=env /var/tmp/*.crudlesscli /var/tmp
@@ -42,7 +43,8 @@ COPY --from=env /var/tmp/*.crudlesscli /var/tmp
 # RUN if [ -d ./src/pages/masterResource ];then rm -rf ./src/pages/masterResource fi
 #COPY --from=env /web/src/pages/*/config/*-setting.json ./assets/json/
 #COPY ./web/entrypoint.sh /usr/local/bin/entrypoint.sh
+WORKDIR /usr/src/web
 
 COPY ${ENTRY_SCRIPT} /usr/local/bin/entrypoint.sh
-# ENTRYPOINT [ "sh", "/usr/local/bin/entrypoint.sh", "npm", "start" ]
-ENTRYPOINT [ "sh", "/usr/local/bin/entrypoint.sh" ]
+ENTRYPOINT [ "sh", "/usr/local/bin/entrypoint.sh", "npm", "start" ]
+# ENTRYPOINT [ "sh", "/usr/local/bin/entrypoint.sh" ]

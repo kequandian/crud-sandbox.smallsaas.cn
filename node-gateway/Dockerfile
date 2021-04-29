@@ -18,8 +18,6 @@ RUN npm install
 
 #final-stage
 FROM daocloud.io/library/node:12.18-alpine
-WORKDIR /usr/share
+WORKDIR /usr/src/gateway
 COPY --from=node /usr/src/node_modules/gateway .
-WORKDIR /usr/share
-
-CMD [ "npm", "start" ]
+CMD [ "npm", "start" ]  

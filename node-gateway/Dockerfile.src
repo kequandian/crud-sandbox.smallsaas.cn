@@ -1,6 +1,6 @@
 FROM daocloud.io/library/node:12.18-alpine
-WORKDIR /usr/share
+WORKDIR /usr/src/gateway
 ADD ./src .
 RUN mkdir -p ./src/assets && touch ./src/assets/db.json
 RUN npm install
-CMD [ "npm", "start" ]
+CMD [ "npm", "start" ]  
