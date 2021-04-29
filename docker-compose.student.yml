@@ -25,8 +25,10 @@ services:
     container_name: crud_sandbox_web_2
     build:
       context: .
-      dockerfile: ./web/Dockerfile.prod
+      dockerfile: ./web/Dockerfile
       args:
+        ENTRY_SCRIPT: ./web/entrypoint.sh
+            ## below for schema
         SCHEMA_SQL: ./cg-student.sql
         TABLE_NAME: t_student
     volumes: 
@@ -34,11 +36,14 @@ services:
       - ./web/config/config.js:/usr/src/web/public/config.js
     #for node-gateway below
       - ./out/web/src/pages:/usr/src/web/src/pages
-    command: 
-      - npm
-      - start
     ports:
       - 8000:8000
+    command:
+        - npm
+        - start
+    depends_on: 
+      - api
+      - nodegateway
 
   nodegateway:
     #/usr/src/gateway/src/assets/json/masterResource/config/masterResource-setting.json
@@ -48,12 +53,12 @@ services:
       NODE_ENV: production
     volumes: 
       - ./out/web/src/pages:/usr/src/gateway/src/assets/json
-    # for src code mapping
+          #for development env
       # - ./node-gateway/src/src:/usr/src/gateway/src
 
   mysqlserver:
     image: daocloud.io/library/mysql:5.7
-    container_name: mysqlserver
+    # container_name: mysqlserver
     privileged: true
     environment:
         MYSQL_ROOT_PASSWORD: root
@@ -71,14 +76,12 @@ services:
       volumes:
         - ./nginx/conf.d:/etc/nginx/conf.d
       depends_on:
-        - api
         - web
-        - nodegateway
 
-  # busybox:
-  #   # image: daocloud.io/library/busybox
-  #   image: yauritux/busybox-curl
-  #   container_name: busybox
+  busybox:
+    # image: daocloud.io/library/busybox
+    image: yauritux/busybox-curl
+    container_name: busybox
 
 networks:
   default:
