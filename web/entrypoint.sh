@@ -11,7 +11,7 @@ if [ ! -f $share ];then
 fi
 
 ## fix $out/index.js
-if [ ! -f *.crudlesscli ];then
+#if [ ! -f *.crudlesscli ];then  ## should be update everytime fir different schema.sql
   fix="./src/pages/index.js"
   pageName=$(basename $(ls /var/tmp/*.crudlesscli))  # get file name with extention .crudlesscli
   pageName=${pageName%.crudlesscli}   # get file name withotu extention .crudlesscli
@@ -25,7 +25,7 @@ if [ ! -f *.crudlesscli ];then
 
   touch .crudlesscli
   ls .crudlesscli
-fi
+#fi
 
 # start
 #npm start

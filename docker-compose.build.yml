@@ -23,7 +23,7 @@ services:
     container_name: crud_sandbox_web_1
     build:
       context: .
-      dockerfile: ./web/Dockerfile.prod
+      dockerfile: ./web/Dockerfile
       args:
         SCHEMA_SQL: ./cg-mysql-schema.sql
         TABLE_NAME: cg_master_resource

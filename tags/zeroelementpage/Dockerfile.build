@@ -3,8 +3,7 @@ FROM zelejs/zeroelement:cache as cache
 FROM daocloud.io/library/node:12 as web
 
 WORKDIR /usr/src
-
-RUN git -c http.sslVerify=false clone https://github.com.cnpmjs.org/kequandian/zero-element-admin.git --branch page --single-branch web
+RUN git -c http.sslVerify=false clone --depth 1 https://github.com.cnpmjs.org/kequandian/zero-element-admin.git --branch page --single-branch web
 #cli method: 
 # $ git clone git@github.com:kequandian/zero-element-admin.git --branch page --single-branch web
 #COPY ./repo/web ./web
@@ -22,4 +21,5 @@ RUN npm install
 FROM daocloud.io/library/node:12.18-alpine
 COPY --from=web /usr/src/web /usr/src/web
 WORKDIR /usr/src/web
+
 CMD [ "npm", "start" ]
