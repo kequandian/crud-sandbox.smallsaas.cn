@@ -36,7 +36,7 @@ services:
 
 #### 启动容器编排
 ```
-COMPOSE_DOCKER_CLI_BUILD=1 docker-comopse -f docker-compose.yml up --build --remove-orphans
+COMPOSE_DOCKER_CLI_BUILD=1 docker-compose -f docker-compose.yml up --build --remove-orphans
 ```
 > 或
 >
